@@ -23,9 +23,18 @@ Route::get('/set-telegram-webhook', function () {
     $url = url('/api/telegram/webhook');
     try {
         $response = \Telegram\Bot\Laravel\Facades\Telegram::setWebhook(['url' => $url]);
-        return "✅ Webhook Berhasil Disetel ke: " . $url;
+        return "✅ Webhook Berhasil Disetel ke: " . $url . "<br>Response: " . json_encode($response);
     } catch (\Exception $e) {
         return "❌ Gagal menyetel Webhook: " . $e->getMessage();
+    }
+});
+
+Route::get('/get-telegram-webhook-info', function () {
+    try {
+        $response = \Telegram\Bot\Laravel\Facades\Telegram::getWebhookInfo();
+        return "🔍 Webhook Info: <pre>" . json_encode($response, JSON_PRETTY_PRINT) . "</pre>";
+    } catch (\Exception $e) {
+        return "❌ Gagal mengambil info Webhook: " . $e->getMessage();
     }
 });
 
