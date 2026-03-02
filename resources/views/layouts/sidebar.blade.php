@@ -69,6 +69,14 @@
             <i data-lucide="files" class="w-5 h-5 {{ request()->routeIs('reports.finance') ? 'text-sage' : 'text-gray-400 group-hover:text-sage' }} transition-colors"></i>
             Pusat Rekap Laporan
         </a>
+
+        <a href="{{ route('carousel.index') }}" class="group flex items-center gap-3 px-4 py-3.5 rounded-xl transition-all duration-300 relative overflow-hidden {{ request()->routeIs('carousel.*') ? 'bg-sage/10 text-sage font-bold shadow-sm' : 'text-gray-500 hover:bg-gray-50 hover:text-gray-900 font-medium' }}">
+            @if(request()->routeIs('carousel.*'))
+            <span class="absolute left-0 inset-y-2 w-1.5 bg-sage rounded-r-md"></span>
+            @endif
+            <i data-lucide="image" class="w-5 h-5 {{ request()->routeIs('carousel.*') ? 'text-sage' : 'text-gray-400 group-hover:text-sage' }} transition-colors"></i>
+            Manajemen Carousel
+        </a>
         @endif
 
         <a href="{{ route('academics.index') }}" class="group flex items-center gap-3 px-4 py-3.5 rounded-xl transition-all duration-300 relative overflow-hidden {{ request()->routeIs('academics.*') ? 'bg-sage/10 text-sage font-bold shadow-sm' : 'text-gray-500 hover:bg-gray-50 hover:text-gray-900 font-medium' }}">
