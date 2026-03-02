@@ -19,6 +19,16 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/set-telegram-webhook', function () {
+    $url = url('/api/telegram/webhook');
+    try {
+        $response = \Telegram\Bot\Laravel\Facades\Telegram::setWebhook(['url' => $url]);
+        return "✅ Webhook Berhasil Disetel ke: " . $url;
+    } catch (\Exception $e) {
+        return "❌ Gagal menyetel Webhook: " . $e->getMessage();
+    }
+});
+
 Route::get('/dashboard', [DashboardController::class, 'index'])
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
