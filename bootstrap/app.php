@@ -21,7 +21,11 @@ $app = new Illuminate\Foundation\Application(
 |--------------------------------------------------------------------------
 */
 if (env('APP_ENV') === 'production') {
-    $app->useBootstrapPath('/tmp/storage/bootstrap/cache');
+    $cachePath = '/tmp/storage/bootstrap/cache';
+    if (!is_dir($cachePath)) {
+        mkdir($cachePath, 0777, true);
+    }
+    $app->useBootstrapPath($cachePath);
 }
 
 /*
