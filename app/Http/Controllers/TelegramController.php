@@ -53,12 +53,17 @@ class TelegramController extends Controller
                     return response('OK', 200);
                 }
 
-                if (preg_match('/nominal spp untuk nis:\s*([a-zA-Z0-9]+)/i', $replyToText, $matches)) {
+                if (preg_match('/nominal spp untuk nis:\s*\*?([a-zA-Z0-9]+)\*?/i', $replyToText, $matches)) {
                     return $this->handleFinanceTransaction($chatId, 'SPP', $matches[1], $amount);
                 }
                 
-                if (preg_match('/nominal tabungan untuk nis:\s*([a-zA-Z0-9]+)/i', $replyToText, $matches)) {
-                    return $this->handleFinanceTransaction($chatId, 'TABUNG', $matches[1], $amount);
+                if (preg_match('/nominal (?:Setoran\s+)?Tabungan(?:\s+Bebas)?\s+untuk\s+nis:\s*\*?([a-zA-Z0-9]+)\*?/i', $replyToText, $matches)) {
+                    $kategori = str_contains(strtolower($replyToText), 'bebas') ? 'Bebas' : 'Wajib';
+                    return $this->handleFinanceTransaction($chatId, 'TABUNG', $matches[1], $amount, $kategori);
+                }
+
+                if (preg_match('/nominal Penarikan Tabungan untuk nis:\s*\*?([a-zA-Z0-9]+)\*?/i', $replyToText, $matches)) {
+                    return $this->handleFinanceTransaction($chatId, 'TARIK', $matches[1], $amount);
                 }
             }
 
