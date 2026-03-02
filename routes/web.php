@@ -20,7 +20,7 @@ Route::get('/', function () {
 });
 
 Route::get('/set-telegram-webhook', function () {
-    $url = url('/api/telegram/webhook');
+    $url = url('/bot/webhook');
     try {
         $response = \Telegram\Bot\Laravel\Facades\Telegram::setWebhook(['url' => $url]);
         return "✅ Webhook Berhasil Disetel ke: " . $url . "<br>Response: " . json_encode($response);
@@ -28,6 +28,8 @@ Route::get('/set-telegram-webhook', function () {
         return "❌ Gagal menyetel Webhook: " . $e->getMessage();
     }
 });
+
+Route::post('/bot/webhook', [\App\Http\Controllers\TelegramController::class, 'handleWebhook']);
 
 Route::get('/get-telegram-webhook-info', function () {
     try {
