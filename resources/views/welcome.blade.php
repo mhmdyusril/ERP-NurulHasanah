@@ -103,7 +103,11 @@
                                          x-transition:leave-start="opacity-100"
                                          x-transition:leave-end="opacity-0"
                                          class="absolute inset-0">
-                                        <img src="{{ $image->image_url }}" alt="{{ $image->title }}" class="w-full h-full object-cover">
+                                        <img src="{{ $image->image_url }}" alt="{{ $image->title }}" class="w-full h-full object-cover" onerror="this.classList.add('hidden'); this.nextElementSibling.classList.remove('hidden');">
+                                        <div class="hidden absolute inset-0 bg-gradient-to-br from-sage/5 to-softTeal/10 flex flex-col items-center justify-center text-sage/30">
+                                            <i data-lucide="image-off" class="w-16 h-16"></i>
+                                            <p class="text-xs font-bold mt-2">Gambar Gagal Dimuat</p>
+                                        </div>
                                         @if($image->title || $image->description)
                                             <div class="absolute bottom-0 inset-x-0 p-6 bg-gradient-to-t from-black/60 to-transparent text-left text-white">
                                                 <h3 class="font-bold text-lg">{{ $image->title }}</h3>

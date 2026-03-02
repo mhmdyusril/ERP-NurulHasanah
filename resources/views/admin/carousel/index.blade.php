@@ -37,13 +37,17 @@
                     @forelse ($images as $image)
                         <tr class="hover:bg-gray-50/50 transition-colors group">
                             <td class="px-6 py-4">
-                                <div class="w-24 h-16 rounded-xl overflow-hidden border border-gray-100 shadow-sm">
-                                    <img src="{{ $image->image_url }}" alt="Preview" class="w-full h-full object-cover">
+                                <div class="w-24 h-16 rounded-xl overflow-hidden border border-gray-100 shadow-sm bg-gray-50 flex items-center justify-center relative group-hover:border-sage/30 transition-colors">
+                                    <img src="{{ $image->image_url }}" alt="Preview" class="w-full h-full object-cover" onerror="this.classList.add('hidden'); this.nextElementSibling.classList.remove('hidden');">
+                                    <div class="hidden flex flex-col items-center justify-center text-red-400">
+                                        <i data-lucide="image-off" class="w-6 h-6"></i>
+                                        <span class="text-[8px] mt-1 font-bold">Link Salah</span>
+                                    </div>
                                 </div>
                             </td>
                             <td class="px-6 py-4">
                                 <div class="font-extrabold text-gray-900 text-sm group-hover:text-sage transition-colors">{{ $image->title ?? '-' }}</div>
-                                <div class="text-xs text-gray-500 truncate max-w-xs">{{ $image->description ?? 'Tidak ada keterangan' }}</div>
+                                <div class="text-[10px] text-gray-400 truncate max-w-xs font-medium">{{ $image->image_url }}</div>
                             </td>
                             <td class="px-6 py-4 text-center font-bold text-gray-700">
                                 {{ $image->order }}
@@ -94,7 +98,7 @@
         <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
             <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true" onclick="this.parentElement.parentElement.classList.add('hidden')"></div>
             <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
-            <div class="inline-block align-bottom bg-white rounded-[2.5rem] text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full p-8 pt-6">
+            <div class="inline-block align-bottom bg-white rounded-[2.5rem] text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-xl sm:w-full p-8 pt-6">
                 <div class="flex items-center justify-between mb-6">
                     <h3 class="text-xl font-bold text-gray-900 flex items-center gap-2">
                         <i data-lucide="plus-circle" class="w-6 h-6 text-sage"></i>
@@ -107,10 +111,18 @@
                 <form action="{{ route('carousel.store') }}" method="POST">
                     @csrf
                     <div class="space-y-4">
+                        <div class="p-4 bg-amber-50 border border-amber-200 rounded-2xl">
+                            <h4 class="text-xs font-bold text-amber-800 uppercase tracking-wider mb-2 flex items-center gap-2">
+                                <i data-lucide="alert-triangle" class="w-4 h-4"></i> Tips Link Gambar
+                            </h4>
+                            <p class="text-[11px] text-amber-700 leading-relaxed">
+                                Link harus berupa <b>Direct Link</b> (langsung ke file gambar). Google Photos/Drive tidak disarankan karena linknya diproteksi.
+                                Gunakan <b>Postimages.org</b> atau <b>ImgBB.com</b>, lalu pilih opsi <b>"Direct Link"</b> (link yang berakhiran .jpg atau .png).
+                            </p>
+                        </div>
                         <div>
-                            <label class="block text-sm font-bold text-gray-700 mb-1">URL Gambar <span class="text-red-500">*</span></label>
-                            <input type="url" name="image_url" required placeholder="https://example.com/image.jpg" class="w-full rounded-xl border-gray-200 focus:border-sage focus:ring-sage shadow-sm text-sm p-3">
-                            <p class="mt-1 text-xs text-gray-500 italic">Unggah gambar ke Imgur/Postimages dulu, lalu masukkan link direct gambarnya di sini.</p>
+                            <label class="block text-sm font-bold text-gray-700 mb-1">URL Direct Gambar <span class="text-red-500">*</span></label>
+                            <input type="url" name="image_url" required placeholder="https://i.postimg.cc/image.jpg" class="w-full rounded-xl border-gray-200 focus:border-sage focus:ring-sage shadow-sm text-sm p-3">
                         </div>
                         <div>
                             <label class="block text-sm font-bold text-gray-700 mb-1">Judul (Opsional)</label>
