@@ -17,6 +17,15 @@ $app = new Illuminate\Foundation\Application(
 
 /*
 |--------------------------------------------------------------------------
+| Custom Bootstrap Cache Path for Vercel (Read-Only FS)
+|--------------------------------------------------------------------------
+*/
+if (env('APP_ENV') === 'production') {
+    $app->useBootstrapPath('/tmp/storage/bootstrap/cache');
+}
+
+/*
+|--------------------------------------------------------------------------
 | Bind Important Interfaces
 |--------------------------------------------------------------------------
 |
