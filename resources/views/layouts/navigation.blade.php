@@ -25,6 +25,9 @@
                     <x-nav-link :href="route('payments.index')" :active="request()->routeIs('payments.*')">
                         {{ __('Keuangan') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('carousel.index')" :active="request()->routeIs('carousel.*')">
+                        {{ __('Carousel') }}
+                    </x-nav-link>
                     @endif
                     <x-nav-link :href="route('academics.index')" :active="request()->routeIs('academics.*')">
                         {{ __('Rapor') }}
@@ -99,6 +102,9 @@
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('payments.index')" :active="request()->routeIs('payments.*')">
                 {{ __('Keuangan') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('carousel.index')" :active="request()->routeIs('carousel.*')">
+                {{ __('Carousel') }}
             </x-responsive-nav-link>
             @endif
             <x-responsive-nav-link :href="route('academics.index')" :active="request()->routeIs('academics.*')">

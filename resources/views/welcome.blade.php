@@ -88,12 +88,43 @@
                 </div>
             </div>
             
-            <!-- Dashboard Preview Illustration -->
+            <!-- Dashboard Preview / Carousel -->
             <div class="mt-20 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="rounded-[2.5rem] bg-white/50 backdrop-blur-xl p-4 sm:p-6 shadow-2xl border border-white/50 ring-1 ring-black/5">
                     <div class="rounded-[2rem] overflow-hidden bg-gray-50 border border-gray-100 aspect-[16/9] relative flex items-center justify-center">
-                        <div class="absolute inset-0 bg-gradient-to-br from-sage/5 to-softTeal/10"></div>
-                        <i data-lucide="layout-dashboard" class="w-24 h-24 text-sage/20"></i>
+                        @if($carouselImages && $carouselImages->count() > 0)
+                            <div x-data="{ activeSlide: 0, slides: {{ $carouselImages->count() }} }" x-init="setInterval(() => { activeSlide = (activeSlide + 1) % slides }, 5000)" class="w-full h-full relative">
+                                @foreach($carouselImages as $index => $image)
+                                    <div x-show="activeSlide === {{ $index }}" 
+                                         x-transition:enter="transition ease-out duration-500"
+                                         x-transition:enter-start="opacity-0 scale-95"
+                                         x-transition:enter-end="opacity-100 scale-100"
+                                         x-transition:leave="transition ease-in duration-300"
+                                         x-transition:leave-start="opacity-100"
+                                         x-transition:leave-end="opacity-0"
+                                         class="absolute inset-0">
+                                        <img src="{{ $image->image_url }}" alt="{{ $image->title }}" class="w-full h-full object-cover">
+                                        @if($image->title || $image->description)
+                                            <div class="absolute bottom-0 inset-x-0 p-6 bg-gradient-to-t from-black/60 to-transparent text-left text-white">
+                                                <h3 class="font-bold text-lg">{{ $image->title }}</h3>
+                                                <p class="text-xs opacity-90">{{ $image->description }}</p>
+                                            </div>
+                                        @endif
+                                    </div>
+                                @endforeach
+                                
+                                <!-- Dots Indicator -->
+                                <div class="absolute bottom-4 right-6 flex gap-2">
+                                    @foreach($carouselImages as $index => $image)
+                                        <button @click="activeSlide = {{ $index }}" :class="activeSlide === {{ $index }} ? 'bg-sage w-6' : 'bg-white/50 hover:bg-white'" class="h-2 rounded-full transition-all duration-300 shadow-sm"></button>
+                                    @endforeach
+                                </div>
+                            </div>
+                        @else
+                            <div class="absolute inset-0 bg-gradient-to-br from-sage/5 to-softTeal/10 flex items-center justify-center">
+                                <i data-lucide="layout-dashboard" class="w-24 h-24 text-sage/20"></i>
+                            </div>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -135,8 +166,10 @@
                     <div class="relative">
                         <div class="absolute -inset-4 bg-gradient-to-tr from-sage/20 to-softTeal/20 rounded-[3rem] blur-2xl -z-10"></div>
                         <div class="rounded-[2.5rem] overflow-hidden shadow-2xl">
-                            <!-- Placeholder Image representing children/school -->
-                            <img src="https://images.unsplash.com/photo-1544605481-229202af5529?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Tentang RA Nurul Hasanah" class="w-full h-full object-cover aspect-square md:aspect-[4/3] lg:aspect-square">
+                            @php
+                                $aboutImage = $carouselImages->first() ? $carouselImages->first()->image_url : 'https://images.unsplash.com/photo-1544605481-229202af5529?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80';
+                            @endphp
+                            <img src="{{ $aboutImage }}" alt="Tentang RA Nurul Hasanah" class="w-full h-full object-cover aspect-square md:aspect-[4/3] lg:aspect-square">
                         </div>
                     </div>
                 </div>

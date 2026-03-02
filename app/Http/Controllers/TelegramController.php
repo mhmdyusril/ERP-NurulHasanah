@@ -102,6 +102,12 @@ class TelegramController extends Controller
                 return $this->handleClassSelectionCommand($chatId, 'spp');
             } elseif ($text === '/tabung_kelas') {
                 return $this->handleClassSelectionCommand($chatId, 'tabung');
+            } elseif ($text === '/rekap_absen') {
+                return $this->sendRekapMessage($chatId, 'absen', 0);
+            } elseif ($text === '/rekap_spp') {
+                return $this->sendRekapMessage($chatId, 'spp', 0);
+            } elseif ($text === '/rekap_tabung') {
+                return $this->sendRekapMessage($chatId, 'tabung', 0);
             }
 
             // Regex Parsing for SPP and Tabungan
@@ -178,12 +184,19 @@ class TelegramController extends Controller
                     $studentRecords = $records->groupBy('student_id');
                     foreach ($studentRecords as $sId => $sAttendances) {
                         $studentName = $sAttendances->first()->student->nama ?? 'Siswa';
-                        $h = $sAttendances->where('status', 'Hadir')->count();
-                        $s = $sAttendances->where('status', 'Sakit')->count();
-                        $i = $sAttendances->where('status', 'Izin')->count();
-                        $a = $sAttendances->where('status', 'Alpa')->count();
                         
-                        $message .= "└ $studentName: Hadir($h) Sakit($s) Izin($i) Alpa($a)\n";
+                        if ($days === 0) {
+                            // Format harian: Nama: Status
+                            $status = $sAttendances->first()->status;
+                            $message .= "└ $studentName: <b>$status</b>\n";
+                        } else {
+                            // Format periodik (mingguan dsb): Nama: Hadir(x) dsb
+                            $h = $sAttendances->where('status', 'Hadir')->count();
+                            $s = $sAttendances->where('status', 'Sakit')->count();
+                            $i = $sAttendances->where('status', 'Izin')->count();
+                            $a = $sAttendances->where('status', 'Alpa')->count();
+                            $message .= "└ $studentName: Hadir($h) Sakit($s) Izin($i) Alpa($a)\n";
+                        }
                     }
                     $message .= "\n";
                 }

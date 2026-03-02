@@ -16,7 +16,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    $carouselImages = \App\Models\CarouselImage::where('is_active', true)->orderBy('order')->get();
+    return view('welcome', compact('carouselImages'));
 });
 
 Route::get('/set-telegram-webhook', function () {
@@ -58,6 +59,7 @@ Route::middleware('auth')->group(function () {
         Route::resource('payments', \App\Http\Controllers\PaymentController::class);
         Route::get('reports', [\App\Http\Controllers\ReportController::class, 'finance'])->name('reports.finance');
         Route::get('reports/export', [\App\Http\Controllers\ReportController::class, 'exportExcel'])->name('reports.export');
+        Route::resource('carousel', \App\Http\Controllers\CarouselImageController::class);
     });
 
     // Modul yang bisa diakses Admin dan Guru
