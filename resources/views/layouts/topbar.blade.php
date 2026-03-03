@@ -9,37 +9,8 @@
         </div>
     </div>
 
-    <!-- Search Bar (Centered on Desktop) -->
-    <div class="hidden md:flex flex-1 max-w-2xl mx-auto px-4">
-        <div class="relative w-full group">
-            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                <i data-lucide="search" class="w-5 h-5 text-gray-400 group-focus-within:text-sage transition-colors"></i>
-            </div>
-            <input type="text" 
-                class="block w-full pl-11 pr-4 py-3 bg-gray-50/80 border-transparent hover:bg-gray-100/80 text-gray-900 rounded-2xl focus:ring-2 focus:ring-sage/20 focus:border-sage focus:bg-white transition-all shadow-sm placeholder-gray-400 sm:text-sm" 
-                placeholder="Cari siswa (NIS/Nama), invoice SPP, atau kelas...">
-            <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none hidden sm:flex">
-                <span class="text-xs font-semibold text-gray-400 border border-gray-200 rounded px-1.5 py-0.5 shadow-sm">Ctrl K</span>
-            </div>
-        </div>
-    </div>
-
     <!-- Topbar Right Actions -->
     <div class="flex items-center gap-2 sm:gap-4 ml-auto pl-4 border-l border-gray-100 h-10">
-        <!-- Notifications -->
-        <button class="relative p-2 text-gray-400 hover:text-sage transition-colors rounded-xl hover:bg-sage/10 focus:outline-none focus:ring-2 focus:ring-sage focus:ring-offset-2">
-            <i data-lucide="bell" class="w-5 h-5"></i>
-            <span class="absolute top-2 right-2 flex h-2 w-2">
-                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-                <span class="relative inline-flex rounded-full h-2 w-2 bg-red-500 ring-2 ring-white"></span>
-            </span>
-        </button>
-
-        <!-- Settings/Help -->
-        <button class="hidden sm:flex relative p-2 text-gray-400 hover:text-sage transition-colors rounded-xl hover:bg-sage/10 focus:outline-none focus:ring-2 focus:ring-sage focus:ring-offset-2">
-            <i data-lucide="help-circle" class="w-5 h-5"></i>
-        </button>
-
         <!-- User Dropdown (Mobile) -->
         <div class="md:hidden">
             <x-dropdown align="right" width="48">

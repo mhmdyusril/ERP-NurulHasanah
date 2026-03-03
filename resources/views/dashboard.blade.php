@@ -10,14 +10,14 @@
             
             <!-- Quick Actions -->
             <div class="flex items-center gap-3">
-                <button class="inline-flex items-center justify-center px-4 py-2 bg-white border border-gray-200 rounded-xl text-sm font-semibold text-gray-700 hover:bg-gray-50 hover:text-sage transition-all shadow-sm focus:outline-none focus:ring-2 focus:ring-sage focus:ring-offset-2">
+                <a href="{{ route('reports.finance') }}" class="inline-flex items-center justify-center px-4 py-2 bg-white border border-gray-200 rounded-xl text-sm font-semibold text-gray-700 hover:bg-gray-50 hover:text-sage transition-all shadow-sm focus:outline-none focus:ring-2 focus:ring-sage focus:ring-offset-2">
                     <i data-lucide="printer" class="w-4 h-4 mr-2 text-gray-400"></i>
                     Laporan
-                </button>
-                <button class="inline-flex items-center justify-center px-4 py-2 bg-sage hover:bg-emerald-800 border border-transparent rounded-xl text-sm font-semibold text-white transition-all shadow-md shadow-sage/20 hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-sage focus:ring-offset-2">
+                </a>
+                <a href="{{ route('students.create') }}" class="inline-flex items-center justify-center px-4 py-2 bg-sage hover:bg-emerald-800 border border-transparent rounded-xl text-sm font-semibold text-white transition-all shadow-md shadow-sage/20 hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-sage focus:ring-offset-2">
                     <i data-lucide="plus" class="w-4 h-4 mr-2"></i>
                     Siswa Baru
-                </button>
+                </a>
             </div>
         </div>
     </x-slot>
@@ -155,7 +155,7 @@
                         <div class="relative">
                             <!-- Bullet Marker -->
                             <div class="absolute -left-6 w-6 h-6 rounded-full {{ $activity['bg'] }} border-4 border-white flex items-center justify-center shadow-sm">
-                                <span class="w-1.5 h-1.5 rounded-full bg-current {{ $activity['color'] }} shadow-[0_0_8px_currentColor]"></span>
+                                <i data-lucide="{{ $activity['icon'] }}" class="w-2.5 h-2.5 {{ $activity['color'] }}"></i>
                             </div>
                             
                             <!-- Content Card -->
