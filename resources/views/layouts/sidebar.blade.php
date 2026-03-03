@@ -1,6 +1,31 @@
-<aside class="w-[280px] bg-white border-r border-gray-100 hidden md:flex flex-col h-screen sticky top-0 left-0 z-40 shadow-[4px_0_24px_rgba(0,0,0,0.02)]">
+<!-- Mobile Backdrop -->
+<div 
+    x-show="sidebarOpen" 
+    x-transition:enter="transition-opacity ease-linear duration-300"
+    x-transition:enter-start="opacity-0"
+    x-transition:enter-end="opacity-100"
+    x-transition:leave="transition-opacity ease-linear duration-300"
+    x-transition:leave-start="opacity-100"
+    x-transition:leave-end="opacity-0"
+    @click="sidebarOpen = false"
+    class="fixed inset-0 bg-gray-900/50 backdrop-blur-sm z-40 md:hidden">
+</div>
+
+<!-- Sidebar -->
+<aside 
+    x-show="sidebarOpen || window.innerWidth >= 768"
+    x-transition:enter="transition ease-in-out duration-300 transform"
+    x-transition:enter-start="-translate-x-full"
+    x-transition:enter-end="translate-x-0"
+    x-transition:leave="transition ease-in-out duration-300 transform"
+    x-transition:leave-start="translate-x-0"
+    x-transition:leave-end="-translate-x-full"
+    class="fixed inset-y-0 left-0 w-[280px] bg-white border-r border-gray-100 flex flex-col h-screen md:sticky md:top-0 z-50 shadow-[4px_0_24px_rgba(0,0,0,0.02)] transition-transform duration-300 ease-in-out"
+    :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'"
+    @resize.window="if (window.innerWidth >= 768) sidebarOpen = false">
+    
     <!-- Header/Logo Area -->
-    <div class="h-20 flex items-center px-6 border-b border-gray-50">
+    <div class="h-20 flex items-center px-6 border-b border-gray-50 flex-shrink-0">
         <a href="{{ route('dashboard') }}" class="flex items-center gap-3 group">
             <div class="w-10 h-10 bg-gradient-to-br from-sage to-emerald-800 rounded-xl flex items-center justify-center text-white shadow-lg shadow-sage/30 group-hover:scale-105 transition-transform duration-300">
                 <i data-lucide="graduation-cap" class="w-6 h-6"></i>
@@ -10,6 +35,10 @@
                 <span class="text-[10px] font-medium text-sage uppercase tracking-widest mt-1">Nurul Hasanah</span>
             </div>
         </a>
+        <!-- Close button mobile -->
+        <button @click="sidebarOpen = false" class="ml-auto md:hidden p-2 text-gray-400 hover:text-gray-600">
+            <i data-lucide="x" class="w-6 h-6"></i>
+        </button>
     </div>
 
     <!-- Navigation Area -->

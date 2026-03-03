@@ -1,7 +1,7 @@
 <header class="h-24 bg-white/80 backdrop-blur-xl border-b border-gray-100 flex items-center justify-between px-4 sm:px-6 lg:px-8 sticky top-0 z-30 transition-all duration-300">
     <!-- Mobile Menu Button & Brand -->
     <div class="flex items-center md:hidden gap-3">
-        <button class="p-2 -ml-2 text-gray-500 hover:text-sage hover:bg-sage/10 rounded-xl transition-colors focus:outline-none focus:ring-2 focus:ring-sage focus:ring-offset-2">
+        <button @click="sidebarOpen = !sidebarOpen" class="p-2 -ml-2 text-gray-500 hover:text-sage hover:bg-sage/10 rounded-xl transition-colors focus:outline-none focus:ring-2 focus:ring-sage focus:ring-offset-2">
             <i data-lucide="menu" class="w-6 h-6"></i>
         </button>
         <div class="w-8 h-8 bg-gradient-to-br from-sage to-emerald-800 rounded-lg flex items-center justify-center text-white shadow-md">

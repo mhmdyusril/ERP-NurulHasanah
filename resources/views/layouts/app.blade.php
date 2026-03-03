@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{ config('app.name', 'Laravel') }}</title>
+        <title>@isset($header) {{ strip_tags($header) }} - @endisset {{ config('app.name', 'ERP RA Nurul Hasanah') }}</title>
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
@@ -17,19 +17,22 @@
         <script src="https://unpkg.com/lucide@latest"></script>
     </head>
     <body class="font-sans antialiased text-gray-900 selection:bg-sage selection:text-white bg-[#F8F9FA]">
-        <div class="min-h-screen flex w-full relative overflow-hidden bg-[#F8F9FA]">
+        <div x-data="{ sidebarOpen: false }" class="min-h-screen flex w-full relative overflow-hidden bg-[#F8F9FA]">
             <!-- Decorative Backgrounds -->
             <div class="absolute top-0 right-0 w-[500px] h-[500px] bg-gradient-to-bl from-softTeal/10 to-transparent rounded-bl-full pointer-events-none -z-10"></div>
             
-            <!-- Sidebar -->
-            @include('layouts.sidebar')
+            <!-- Sidebar Area -->
+            <div class="shrink-0">
+                @include('layouts.sidebar')
+            </div>
 
             <!-- Main Content Wrapper -->
-            <div class="flex-1 flex flex-col min-h-screen transition-all duration-300 w-full overflow-y-auto">
+            <div class="flex-1 flex flex-col h-screen transition-all duration-300 w-full overflow-hidden relative">
                 <!-- Topbar -->
                 @include('layouts.topbar')
 
-                <div class="max-w-[1600px] mx-auto w-full">
+                <div class="flex-1 overflow-y-auto">
+                    <div class="max-w-[1600px] mx-auto w-full">
                     <!-- Page Heading -->
                     @if (isset($header))
                         <div class="px-4 sm:px-6 lg:px-8 pt-8">
