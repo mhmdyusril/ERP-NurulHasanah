@@ -24,8 +24,8 @@
                         class="block w-full pl-11 pr-4 py-3 bg-gray-50/50 border-gray-200 rounded-xl focus:ring-2 focus:ring-sage/20 focus:border-sage focus:bg-white transition-all shadow-sm font-semibold text-gray-700 cursor-pointer">
                 </div>
             </div>
-            <div>
-                <button type="submit" class="px-6 py-3 bg-sage hover:bg-emerald-800 text-white font-semibold rounded-xl transition-all shadow-md shadow-sage/20 hover:-translate-y-0.5 flex items-center h-[50px]">
+            <div class="w-full sm:w-auto">
+                <button type="submit" class="w-full sm:w-auto px-6 py-3 bg-sage hover:bg-emerald-800 text-white font-semibold rounded-xl transition-all shadow-md shadow-sage/20 hover:-translate-y-0.5 flex justify-center items-center h-[50px]">
                     <i data-lucide="search" class="w-5 h-5 mr-2"></i> Tampilkan
                 </button>
             </div>

@@ -1,16 +1,16 @@
 <x-app-layout>
     <x-slot name="header">
-        <div class="flex items-center justify-between">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
                 <h2 class="font-bold text-2xl md:text-3xl text-gray-900 tracking-tight flex items-center gap-2">
                     <i data-lucide="bar-chart-2" class="w-8 h-8 text-sage"></i>
                     {{ __('Pusat Rekapitulasi') }}
                 </h2>
-                <p class="text-sm text-gray-500 mt-1 font-medium">Laporan terpadu absensi, pembayaran SPP, dan transaksi tabungan.</p>
+                <p class="text-sm md:text-base text-gray-500 mt-1 font-medium">Laporan terpadu absensi, pembayaran SPP, dan transaksi tabungan.</p>
             </div>
             
-            <a href="{{ route('reports.export', ['start_date' => request('start_date', $startDate), 'end_date' => request('end_date', $endDate), 'class_id' => request('class_id', $class_id)]) }}" class="hidden md:flex px-4 py-2.5 bg-white border border-gray-200 text-gray-700 hover:text-emerald-600 hover:border-emerald-600 rounded-xl font-bold transition-all shadow-sm items-center gap-2">
-                <i data-lucide="download" class="w-4 h-4"></i> Cetak Laporan
+            <a href="{{ route('reports.export', ['start_date' => request('start_date', $startDate), 'end_date' => request('end_date', $endDate), 'class_id' => request('class_id', $class_id)]) }}" class="inline-flex items-center justify-center px-4 py-2.5 bg-sage hover:bg-emerald-800 rounded-xl text-sm font-semibold text-white transition-all shadow-md shadow-sage/20 hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-sage focus:ring-offset-2">
+                <i data-lucide="download" class="w-4 h-4 mr-2"></i> Cetak Laporan
             </a>
         </div>
     </x-slot>
@@ -95,7 +95,54 @@
         <!-- TAB CONTENT: ABSENSI -->
         <div x-show="activeTab === 'absensi'" class="print:block">
             <h3 class="font-bold text-xl text-sage mb-4 hidden print:block border-b pb-2">Rekapitulasi Kehadiran Siswa</h3>
-            <div class="bg-white rounded-[2rem] shadow-sm border border-gray-100 overflow-hidden mb-8 print:shadow-none print:border-none print:rounded-none">
+            
+            {{-- ── MOBILE CARD LAYOUT ── --}}
+            <div class="md:hidden space-y-3 mb-8">
+                @forelse($students as $index => $stu)
+                    @php
+                        $hadir = $stu->attendances->where('status', 'Hadir')->count();
+                        $sakit = $stu->attendances->where('status', 'Sakit')->count();
+                        $izin = $stu->attendances->where('status', 'Izin')->count();
+                        $alpa = $stu->attendances->where('status', 'Alpa')->count();
+                    @endphp
+                    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-4">
+                        <div class="flex items-center gap-3 mb-3">
+                            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-softTeal/20 to-sage/20 flex flex-shrink-0 items-center justify-center text-sage font-bold shadow-sm">
+                                {{ substr($stu->nama, 0, 1) }}
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <div class="font-bold text-gray-900 truncate">{{ $stu->nama }}</div>
+                                <div class="text-xs text-gray-400 font-semibold">{{ $stu->nis }}</div>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-4 gap-2">
+                            <div class="text-center p-2 rounded-xl {{ $hadir > 0 ? 'bg-emerald-50 border border-emerald-100' : 'bg-gray-50 border border-gray-100' }}">
+                                <div class="text-xs font-bold text-gray-500 mb-0.5">Hadir</div>
+                                <div class="text-lg font-black {{ $hadir > 0 ? 'text-emerald-600' : 'text-gray-300' }}">{{ $hadir }}</div>
+                            </div>
+                            <div class="text-center p-2 rounded-xl {{ $sakit > 0 ? 'bg-amber-50 border border-amber-100' : 'bg-gray-50 border border-gray-100' }}">
+                                <div class="text-xs font-bold text-gray-500 mb-0.5">Sakit</div>
+                                <div class="text-lg font-black {{ $sakit > 0 ? 'text-amber-600' : 'text-gray-300' }}">{{ $sakit }}</div>
+                            </div>
+                            <div class="text-center p-2 rounded-xl {{ $izin > 0 ? 'bg-blue-50 border border-blue-100' : 'bg-gray-50 border border-gray-100' }}">
+                                <div class="text-xs font-bold text-gray-500 mb-0.5">Izin</div>
+                                <div class="text-lg font-black {{ $izin > 0 ? 'text-blue-600' : 'text-gray-300' }}">{{ $izin }}</div>
+                            </div>
+                            <div class="text-center p-2 rounded-xl {{ $alpa > 0 ? 'bg-red-50 border border-red-100' : 'bg-gray-50 border border-gray-100' }}">
+                                <div class="text-xs font-bold text-gray-500 mb-0.5">Alpa</div>
+                                <div class="text-lg font-black {{ $alpa > 0 ? 'text-red-600' : 'text-gray-300' }}">{{ $alpa }}</div>
+                            </div>
+                        </div>
+                    </div>
+                @empty
+                    <div class="bg-white rounded-2xl p-8 text-center border border-gray-100 shadow-sm text-gray-500">
+                        Tidak ada data absen pada periode ini.
+                    </div>
+                @endforelse
+            </div>
+
+            {{-- ── DESKTOP TABLE LAYOUT ── --}}
+            <div class="hidden md:block bg-white rounded-[2rem] shadow-sm border border-gray-100 overflow-hidden mb-8 print:shadow-none print:border-none print:rounded-none">
                 <div class="overflow-x-auto max-h-[600px] overflow-y-auto">
                     <table class="w-full text-sm text-left">
                         <thead class="text-xs text-gray-500 uppercase bg-gray-50/80 border-b border-gray-100 sticky top-0">
@@ -160,8 +207,34 @@
                 </div>
             </div>
 
+            {{-- ── MOBILE CARD LAYOUT (SPP) ── --}}
+            <div class="md:hidden space-y-3 mt-4">
+                @forelse($payments as $p)
+                    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-4">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 bg-gray-50 text-gray-600 rounded-full text-[10px] font-bold border border-gray-200">
+                                <i data-lucide="calendar" class="w-3 h-3"></i> {{ \Carbon\Carbon::parse($p->payment_date)->format('d M Y') }}
+                            </span>
+                            <span class="inline-flex items-center gap-1 px-2.5 py-1 bg-green-50 text-green-700 rounded-lg text-xs font-bold border border-green-100">
+                                <i data-lucide="check-circle-2" class="w-3.5 h-3.5"></i> Lunas
+                            </span>
+                        </div>
+                        <h4 class="font-bold text-gray-900 mb-0.5">{{ $p->student->nama }}</h4>
+                        <p class="text-xs text-gray-500 font-medium mb-3">{{ $p->billingCategory->name ?? 'SPP Bulanan' }}</p>
+                        <div class="pt-3 border-t border-gray-50 flex items-center justify-between">
+                            <span class="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Nominal Disetor</span>
+                            <span class="font-black text-emerald-600 text-lg">Rp {{ number_format($p->amount, 0, ',', '.') }}</span>
+                        </div>
+                    </div>
+                @empty
+                    <div class="bg-white rounded-2xl p-8 text-center border border-gray-100 shadow-sm text-gray-500">
+                        Tidak ada transaksi pelunasan di periode ini.
+                    </div>
+                @endforelse
+            </div>
+
             <!-- Tabel Tagihan (Payments) -->
-            <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden print:shadow-none print:border-none print:rounded-none">
+            <div class="hidden md:block bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden print:shadow-none print:border-none print:rounded-none">
                 <div class="overflow-x-auto max-h-[500px] overflow-y-auto">
                     <table class="w-full text-sm text-left">
                         <thead class="text-xs text-gray-500 uppercase bg-gray-50 border-b border-gray-100 sticky top-0">
@@ -224,8 +297,50 @@
                 </div>
             </div>
 
+            {{-- ── MOBILE CARD LAYOUT (TABUNGAN) ── --}}
+            <div class="md:hidden space-y-3 mt-4 mb-4">
+                @forelse($savings as $s)
+                    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-4">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 bg-gray-50 text-gray-600 rounded-full text-[10px] font-bold border border-gray-200">
+                                <i data-lucide="calendar" class="w-3 h-3"></i> {{ \Carbon\Carbon::parse($s->date)->format('d M Y') }}
+                            </span>
+                            @if($s->type === 'Setor')
+                                <span class="inline-flex items-center gap-1 px-2.5 py-1 bg-indigo-50 text-indigo-700 rounded-lg text-xs font-bold border border-indigo-100">
+                                    <i data-lucide="arrow-down-right" class="w-3.5 h-3.5"></i> Setor
+                                </span>
+                            @else
+                                <span class="inline-flex items-center gap-1 px-2.5 py-1 bg-amber-50 text-amber-700 rounded-lg text-xs font-bold border border-amber-100">
+                                    <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i> Tarik
+                                </span>
+                            @endif
+                        </div>
+                        <div class="flex items-center justify-between mb-3">
+                            <h4 class="font-bold text-gray-900">{{ $s->student->nama }}</h4>
+                            @if($s->type === 'Setor')
+                                @if($s->kategori === 'Wajib')
+                                    <span class="inline-flex items-center px-2 py-0.5 bg-purple-100 text-purple-700 rounded text-[10px] font-bold uppercase border border-purple-200">Wajib</span>
+                                @else
+                                    <span class="inline-flex items-center px-2 py-0.5 bg-blue-100 text-blue-700 rounded text-[10px] font-bold uppercase border border-blue-200">Bebas</span>
+                                @endif
+                            @endif
+                        </div>
+                        <div class="pt-3 border-t border-gray-50 flex items-center justify-between">
+                            <span class="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Nominal</span>
+                            <span class="font-black text-lg {{ $s->type === 'Setor' ? 'text-indigo-600' : 'text-amber-600' }}">
+                                {{ $s->type === 'Setor' ? '+' : '-' }} Rp {{ number_format($s->amount, 0, ',', '.') }}
+                            </span>
+                        </div>
+                    </div>
+                @empty
+                    <div class="bg-white rounded-2xl p-8 text-center border border-gray-100 shadow-sm text-gray-500">
+                        Tidak ada transaksi tabungan di periode ini.
+                    </div>
+                @endforelse
+            </div>
+
             <!-- Tabel Tabungan (Savings) -->
-            <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden print:shadow-none print:border-none print:rounded-none xl:w-2/3">
+            <div class="hidden md:block bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden print:shadow-none print:border-none print:rounded-none xl:w-2/3">
                 <div class="overflow-x-auto max-h-[500px] overflow-y-auto">
                     <table class="w-full text-sm text-left">
                         <thead class="text-xs text-gray-500 uppercase bg-gray-50 border-b border-gray-100 sticky top-0">

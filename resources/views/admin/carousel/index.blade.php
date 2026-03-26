@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
                 <h2 class="font-bold text-2xl md:text-3xl text-gray-900 tracking-tight flex items-center gap-2">
                     <i data-lucide="image" class="w-8 h-8 text-sage"></i>
@@ -8,20 +8,69 @@
                 </h2>
                 <p class="text-sm md:text-base text-gray-500 mt-1 font-medium">Kelola gambar dan konten promosi pada halaman depan.</p>
             </div>
-            <button onclick="document.getElementById('modal-add').classList.remove('hidden')" class="px-5 py-2.5 bg-sage hover:bg-emerald-800 text-white font-semibold rounded-xl transition-all shadow-md shadow-sage/20 hover:-translate-y-0.5 flex items-center h-[42px]">
-                <i data-lucide="plus" class="w-5 h-5 mr-2"></i> Tambah Gambar
+            <button onclick="document.getElementById('modal-add').classList.remove('hidden')" class="inline-flex items-center justify-center px-4 py-2.5 bg-sage hover:bg-emerald-800 rounded-xl text-sm font-semibold text-white transition-all shadow-md shadow-sage/20 hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-sage focus:ring-offset-2">
+                <i data-lucide="plus" class="w-4 h-4 mr-2"></i> Tambah Gambar
             </button>
         </div>
     </x-slot>
 
-    @if(session('success'))
-        <div class="mb-6 p-4 bg-green-50 border border-green-200 text-green-700 rounded-2xl shadow-sm flex items-center gap-3 font-medium">
-            <i data-lucide="check-circle-2" class="w-5 h-5 text-green-500"></i>
-            {{ session('success') }}
-        </div>
-    @endif
+    {{-- ── MOBILE CARD LAYOUT ── --}}
+    <div class="md:hidden space-y-4">
+        @forelse ($images as $image)
+            <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                <div class="h-40 w-full bg-gray-100 relative group-hover:border-sage/30">
+                    <img src="{{ $image->image_url }}" alt="Preview" class="w-full h-full object-cover" onerror="this.classList.add('hidden'); this.nextElementSibling.classList.remove('hidden');">
+                    <div class="hidden flex flex-col items-center justify-center text-red-400 absolute inset-0 bg-red-50">
+                        <i data-lucide="image-off" class="w-8 h-8 mb-2"></i>
+                        <span class="text-xs font-bold text-red-500">Link Gambar Salah</span>
+                    </div>
+                    {{-- Status Badge (Absolute) --}}
+                    <div class="absolute top-3 right-3">
+                        @if($image->is_active)
+                            <span class="inline-flex items-center gap-1 px-2.5 py-1 bg-green-500/90 backdrop-blur-sm text-white rounded-full text-[10px] font-bold shadow-sm">
+                                <i data-lucide="check" class="w-3 h-3"></i> AKTIF
+                            </span>
+                        @else
+                            <span class="inline-flex items-center gap-1 px-2.5 py-1 bg-gray-800/80 backdrop-blur-sm text-white rounded-full text-[10px] font-bold shadow-sm">
+                                <i data-lucide="x" class="w-3 h-3"></i> NON-AKTIF
+                            </span>
+                        @endif
+                    </div>
+                </div>
+                <div class="p-4">
+                    <div class="flex items-start justify-between gap-3 mb-3">
+                        <div class="flex-1 min-w-0">
+                            <h3 class="font-extrabold text-gray-900 text-sm truncate">{{ $image->title ?: 'Tanpa Judul' }}</h3>
+                            <p class="text-[10px] text-gray-400 truncate mt-0.5">{{ $image->image_url }}</p>
+                        </div>
+                        <div class="shrink-0 text-center">
+                            <span class="block text-[10px] text-gray-400 font-bold uppercase tracking-wider mb-0.5">Urutan</span>
+                            <span class="inline-block px-2 py-0.5 bg-gray-100 text-gray-800 font-black rounded">{{ $image->order }}</span>
+                        </div>
+                    </div>
+                    <div class="flex gap-2 pt-3 border-t border-gray-50">
+                        <button onclick='openEditModal(@json($image))' class="flex-1 flex items-center justify-center gap-2 px-3 py-2 bg-amber-50 hover:bg-amber-100 text-amber-700 font-bold rounded-xl transition-colors text-xs">
+                            <i data-lucide="edit-3" class="w-3.5 h-3.5"></i> Edit
+                        </button>
+                        <form action="{{ route('carousel.destroy', $image->id) }}" method="POST" class="flex-1" onsubmit="return confirm('Hapus gambar ini?');">
+                            @csrf @method('DELETE')
+                            <button type="submit" class="w-full flex items-center justify-center gap-2 px-3 py-2 bg-red-50 hover:bg-red-100 text-red-600 font-bold rounded-xl transition-colors text-xs">
+                                <i data-lucide="trash-2" class="w-3.5 h-3.5"></i> Hapus
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        @empty
+            <div class="bg-white rounded-[2rem] p-12 text-center border border-gray-100 shadow-sm">
+                <i data-lucide="image" class="w-12 h-12 text-gray-300 mx-auto mb-3"></i>
+                <p class="font-medium text-gray-500">Belum ada gambar carousel.</p>
+            </div>
+        @endforelse
+    </div>
 
-    <div class="bg-white rounded-[2rem] shadow-sm border border-gray-100 overflow-hidden relative">
+    {{-- ── DESKTOP TABLE LAYOUT ── --}}
+    <div class="hidden md:block bg-white rounded-[2rem] shadow-sm border border-gray-100 overflow-hidden relative">
         <div class="overflow-x-auto">
             <table class="w-full text-sm text-left">
                 <thead class="text-xs text-gray-500 uppercase bg-gray-50/80 border-b border-gray-100">
@@ -65,7 +114,7 @@
                             </td>
                             <td class="px-6 py-4 text-right">
                                 <div class="flex items-center justify-end gap-2">
-                                    <button onclick="openEditModal({{ $image }})" class="p-2 text-gray-400 hover:text-amber-600 hover:bg-amber-50 rounded-xl transition-colors">
+                                    <button onclick='openEditModal(@json($image))' class="p-2 text-gray-400 hover:text-amber-600 hover:bg-amber-50 rounded-xl transition-colors">
                                         <i data-lucide="edit-3" class="w-5 h-5"></i>
                                     </button>
                                     <form action="{{ route('carousel.destroy', $image->id) }}" method="POST" class="inline" onsubmit="return confirm('Hapus gambar ini dari carousel?');">

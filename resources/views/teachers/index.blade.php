@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
                 <h2 class="font-bold text-2xl md:text-3xl text-gray-900 tracking-tight flex items-center gap-2">
                     <i data-lucide="user-cog" class="w-8 h-8 text-sage"></i>
@@ -8,20 +8,12 @@
                 </h2>
                 <p class="text-sm md:text-base text-gray-500 mt-1 font-medium">Kelola akun dan akses guru secara menyeluruh.</p>
             </div>
-            <div class="flex items-center gap-3">
-                <a href="{{ route('teachers.create') }}" class="px-5 py-2.5 bg-sage hover:bg-emerald-800 text-white font-semibold rounded-xl transition-all shadow-md shadow-sage/20 hover:-translate-y-0.5 flex items-center h-[42px]">
-                    <i data-lucide="plus" class="w-5 h-5 mr-2"></i> Tambah Guru
-                </a>
-            </div>
+            
+            <a href="{{ route('teachers.create') }}" class="inline-flex items-center justify-center px-4 py-2.5 bg-sage hover:bg-emerald-800 rounded-xl text-sm font-semibold text-white transition-all shadow-md shadow-sage/20 hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-sage focus:ring-offset-2">
+                <i data-lucide="plus" class="w-4 h-4 mr-2"></i> Tambah Guru
+            </a>
         </div>
     </x-slot>
-
-    @if(session('success'))
-        <div class="mb-6 p-4 bg-green-50 border border-green-200 text-green-700 rounded-2xl shadow-sm flex items-center gap-3 font-medium">
-            <i data-lucide="check-circle-2" class="w-5 h-5 text-green-500"></i>
-            {{ session('success') }}
-        </div>
-    @endif
 
     {{-- ── MOBILE CARD LAYOUT ── --}}
     <div class="md:hidden space-y-3">

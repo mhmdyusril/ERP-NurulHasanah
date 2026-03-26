@@ -429,5 +429,38 @@
                 };
             }
         </script>
+
+        {{-- ── SWEETALERT 2 UNTUK FLASH MESSAGES ── --}}
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                @if(session('success'))
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Berhasil!',
+                        text: '{{ session('success') }}',
+                        timer: 3000,
+                        timerProgressBar: true,
+                        showConfirmButton: false,
+                        customClass: {
+                            popup: 'rounded-[1.5rem] shadow-xl border border-gray-100',
+                            title: 'font-bold text-gray-900',
+                        }
+                    });
+                @endif
+
+                @if(session('error'))
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: '{{ session('error') }}',
+                        customClass: {
+                            popup: 'rounded-[1.5rem] shadow-xl border border-gray-100',
+                            title: 'font-bold text-gray-900',
+                        }
+                    });
+                @endif
+            });
+        </script>
     </body>
 </html>
