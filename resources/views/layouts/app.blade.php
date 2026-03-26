@@ -433,6 +433,32 @@
         {{-- ── SWEETALERT 2 UNTUK FLASH MESSAGES ── --}}
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script>
+            // Global helper untuk form delete confirmation
+            function confirmDelete(event, message) {
+                event.preventDefault();
+                const form = event.target.closest('form');
+                if (!form) return;
+                
+                Swal.fire({
+                    title: 'Konfirmasi',
+                    text: message || 'Apakah Anda yakin ingin melanjutkan?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#059669', // Emerald-600
+                    cancelButtonColor: '#ef4444', // Red-500
+                    confirmButtonText: 'Ya, Lanjutkan',
+                    cancelButtonText: 'Batal',
+                    customClass: {
+                        popup: 'rounded-[1.5rem] shadow-xl border border-gray-100',
+                        title: 'font-bold text-gray-900',
+                    }
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.submit();
+                    }
+                });
+            }
+
             document.addEventListener('DOMContentLoaded', function () {
                 @if(session('success'))
                     Swal.fire({

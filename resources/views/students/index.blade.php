@@ -87,7 +87,7 @@
                     <a href="{{ route('students.edit', $student) }}" class="flex-1 flex items-center justify-center gap-1.5 py-2 rounded-xl bg-blue-50 text-blue-600 text-xs font-semibold hover:bg-blue-600 hover:text-white transition-all">
                         <i data-lucide="edit" class="w-4 h-4"></i> Edit
                     </a>
-                    <form action="{{ route('students.destroy', $student) }}" method="POST" class="flex-1" onsubmit="return confirm('Hapus data siswa ini?');">
+                    <form action="{{ route('students.destroy', $student) }}" method="POST" class="flex-1" onsubmit="confirmDelete(event, 'Hapus data siswa ini?');">
                         @csrf @method('DELETE')
                         <button type="submit" class="w-full flex items-center justify-center gap-1.5 py-2 rounded-xl bg-red-50 text-red-600 text-xs font-semibold hover:bg-red-600 hover:text-white transition-all">
                             <i data-lucide="trash-2" class="w-4 h-4"></i> Hapus
@@ -177,20 +177,20 @@
                                     <form action="{{ route('students.updateStatus', $student) }}" method="POST" class="inline-block">
                                         @csrf @method('PATCH')
                                         <input type="hidden" name="status" value="Lulus">
-                                        <button type="submit" class="p-1.5 text-gray-400 hover:text-amber-600 hover:bg-amber-50 rounded-lg transition-colors" title="Luluskan Siswa" onclick="return confirm('Luluskan {{ $student->nama }}?')">
-                                            <i data-lucide="graduation-cap" class="w-4 h-4"></i>
+                                        <button type="submit" class="p-1.5 text-gray-400 hover:text-amber-600 hover:bg-amber-50 rounded-lg transition-colors" title="Luluskan Siswa" onclick="confirmDelete(event, 'Luluskan {{ $student->nama }}?')">
+                                            <i data-lucide="graduation-cap" class="w-5 h-5"></i>
                                         </button>
                                     </form>
                                     @else
                                     <form action="{{ route('students.updateStatus', $student) }}" method="POST" class="inline-block">
                                         @csrf @method('PATCH')
                                         <input type="hidden" name="status" value="Aktif">
-                                        <button type="submit" class="p-1.5 text-gray-400 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition-colors" title="Aktifkan Kembali" onclick="return confirm('Aktifkan kembali {{ $student->nama }}?')">
-                                            <i data-lucide="refresh-cw" class="w-4 h-4"></i>
+                                        <button type="submit" class="p-1.5 text-gray-400 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition-colors" title="Aktifkan Kembali" onclick="confirmDelete(event, 'Aktifkan kembali {{ $student->nama }}?')">
+                                            <i data-lucide="user-plus" class="w-5 h-5"></i>
                                         </button>
                                     </form>
                                     @endif
-                                    <form action="{{ route('students.destroy', $student) }}" method="POST" class="inline" onsubmit="return confirm('Hapus data siswa ini?');">
+                                    <form action="{{ route('students.destroy', $student) }}" method="POST" class="inline" onsubmit="confirmDelete(event, 'Hapus data siswa ini?');">
                                         @csrf @method('DELETE')
                                         <button type="submit" class="p-1.5 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors" title="Hapus Siswa">
                                             <i data-lucide="trash-2" class="w-4 h-4"></i>

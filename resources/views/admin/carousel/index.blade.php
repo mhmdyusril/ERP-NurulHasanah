@@ -52,7 +52,7 @@
                         <button onclick='openEditModal(@json($image))' class="flex-1 flex items-center justify-center gap-2 px-3 py-2 bg-amber-50 hover:bg-amber-100 text-amber-700 font-bold rounded-xl transition-colors text-xs">
                             <i data-lucide="edit-3" class="w-3.5 h-3.5"></i> Edit
                         </button>
-                        <form action="{{ route('carousel.destroy', $image->id) }}" method="POST" class="flex-1" onsubmit="return confirm('Hapus gambar ini?');">
+                        <form action="{{ route('carousel.destroy', $image->id) }}" method="POST" class="flex-1" onsubmit="confirmDelete(event, 'Hapus gambar ini?');">
                             @csrf @method('DELETE')
                             <button type="submit" class="w-full flex items-center justify-center gap-2 px-3 py-2 bg-red-50 hover:bg-red-100 text-red-600 font-bold rounded-xl transition-colors text-xs">
                                 <i data-lucide="trash-2" class="w-3.5 h-3.5"></i> Hapus
@@ -117,7 +117,7 @@
                                     <button onclick='openEditModal(@json($image))' class="p-2 text-gray-400 hover:text-amber-600 hover:bg-amber-50 rounded-xl transition-colors">
                                         <i data-lucide="edit-3" class="w-5 h-5"></i>
                                     </button>
-                                    <form action="{{ route('carousel.destroy', $image->id) }}" method="POST" class="inline" onsubmit="return confirm('Hapus gambar ini dari carousel?');">
+                                    <form action="{{ route('carousel.destroy', $image->id) }}" method="POST" class="inline" onsubmit="confirmDelete(event, 'Hapus gambar ini dari carousel?');">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-xl transition-colors">

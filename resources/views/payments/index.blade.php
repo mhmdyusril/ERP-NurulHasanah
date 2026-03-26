@@ -110,7 +110,7 @@
 
                 @if($isPaid)
                     <div class="mt-2 flex gap-2 border-t border-gray-50 pt-2">
-                        <form action="{{ route('payments.destroy', $student->payments->last()->id) }}" method="POST" class="inline" onsubmit="return confirm('Batalkan pembayaran terakhir?');">
+                        <form action="{{ route('payments.destroy', $student->payments->last()->id) }}" method="POST" class="inline" onsubmit="confirmDelete(event, 'Batalkan pembayaran terakhir?');">
                             @csrf @method('DELETE')
                             <button type="submit" class="px-2 py-1 text-red-500 hover:text-white hover:bg-red-500 border border-red-100 rounded-lg text-[10px] font-bold transition-colors flex items-center gap-1">
                                 <i data-lucide="rotate-ccw" class="w-3 h-3"></i> Batal (Terakhir)
@@ -201,7 +201,7 @@
                                         <button class="px-3 py-1 bg-white border border-gray-200 text-gray-700 hover:text-sage rounded-lg font-semibold transition-colors shadow-sm flex items-center text-[10px]" onclick="alert('Fitur cetak invoice segera hadir!')">
                                             <i data-lucide="printer" class="w-3 h-3 mr-1"></i> Cetak Bukti
                                         </button>
-                                        <form action="{{ route('payments.destroy', $student->payments->last()->id) }}" method="POST" class="inline" onsubmit="return confirm('Batalkan pembayaran terakhir?');">
+                                        <form action="{{ route('payments.destroy', $student->payments->last()->id) }}" method="POST" class="inline" onsubmit="confirmDelete(event, 'Batalkan pembayaran terakhir?');">
                                             @csrf @method('DELETE')
                                             <button type="submit" class="px-2 py-1 text-red-500 hover:text-white hover:bg-red-500 border border-red-100 rounded-lg text-[10px] font-bold transition-colors shadow-sm flex items-center">
                                                 <i data-lucide="rotate-ccw" class="w-3 h-3 mr-1"></i> Batal (Terakhir)

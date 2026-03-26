@@ -34,7 +34,7 @@
                     <a href="{{ route('classes.edit', $item) }}" class="p-2 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-xl transition-colors">
                         <i data-lucide="edit" class="w-4 h-4"></i>
                     </a>
-                    <form action="{{ route('classes.destroy', $item) }}" method="POST" class="inline" onsubmit="return confirm('Hapus kelas ini?');">
+                    <form action="{{ route('classes.destroy', $item) }}" method="POST" class="inline" onsubmit="confirmDelete(event, 'Hapus kelas ini?');">
                         @csrf @method('DELETE')
                         <button type="submit" class="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-xl transition-colors">
                             <i data-lucide="trash-2" class="w-4 h-4"></i>
@@ -92,7 +92,7 @@
                                     <a href="{{ route('classes.edit', $item) }}" class="p-1.5 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors" title="Edit Data">
                                         <i data-lucide="edit" class="w-4 h-4"></i>
                                     </a>
-                                    <form action="{{ route('classes.destroy', $item) }}" method="POST" class="inline" onsubmit="return confirm('Hapus kelas ini?');">
+                                    <form action="{{ route('classes.destroy', $item) }}" method="POST" class="inline" onsubmit="confirmDelete(event, 'Hapus kelas ini?');">
                                         @csrf @method('DELETE')
                                         <button type="submit" class="p-1.5 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors" title="Hapus Kelas">
                                             <i data-lucide="trash-2" class="w-4 h-4"></i>

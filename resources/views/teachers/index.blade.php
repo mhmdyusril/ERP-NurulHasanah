@@ -33,7 +33,7 @@
                     <a href="{{ route('teachers.edit', $teacher->id) }}" class="p-2 text-gray-400 hover:text-amber-600 hover:bg-amber-50 rounded-xl transition-colors">
                         <i data-lucide="edit-3" class="w-5 h-5"></i>
                     </a>
-                    <form action="{{ route('teachers.destroy', $teacher->id) }}" method="POST" class="inline" onsubmit="return confirm('Hapus akun guru ini?');">
+                    <form action="{{ route('teachers.destroy', $teacher->id) }}" method="POST" class="inline" onsubmit="confirmDelete(event, 'Hapus akun guru ini?');">
                         @csrf @method('DELETE')
                         <button type="submit" class="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-xl transition-colors">
                             <i data-lucide="trash-2" class="w-5 h-5"></i>
@@ -86,7 +86,7 @@
                                     <a href="{{ route('teachers.edit', $teacher->id) }}" class="p-2 text-gray-400 hover:text-amber-600 hover:bg-amber-50 rounded-xl transition-colors" title="Edit Data">
                                         <i data-lucide="edit-3" class="w-5 h-5"></i>
                                     </a>
-                                    <form action="{{ route('teachers.destroy', $teacher->id) }}" method="POST" class="inline" onsubmit="return confirm('Apakah Anda yakin ingin menghapus akun guru ini?');">
+                                    <form action="{{ route('teachers.destroy', $teacher->id) }}" method="POST" class="inline" onsubmit="confirmDelete(event, 'Apakah Anda yakin ingin menghapus akun guru ini?');">
                                         @csrf @method('DELETE')
                                         <button type="submit" class="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-xl transition-colors" title="Hapus Data">
                                             <i data-lucide="trash-2" class="w-5 h-5"></i>
