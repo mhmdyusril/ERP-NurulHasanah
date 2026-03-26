@@ -78,7 +78,54 @@
         <input type="hidden" name="date" value="{{ $date }}">
         <input type="hidden" name="class_id" value="{{ $class_id }}">
 
-        <div class="bg-white rounded-[2rem] shadow-sm border border-gray-100 overflow-hidden">
+        {{-- ── MOBILE CARD LAYOUT ── --}}
+        <div class="md:hidden space-y-3">
+            @foreach($students as $index => $student)
+                @php
+                    $att = $student->attendances->first();
+                    $status = $att ? $att->status : null;
+                    $notes = $att ? $att->notes : '';
+                @endphp
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-4">
+                    <div class="flex items-center gap-3 mb-3">
+                        <div class="w-10 h-10 rounded-full bg-gradient-to-br from-sage/10 to-emerald-900/10 flex items-center justify-center font-bold text-sage flex-shrink-0">
+                            {{ substr($student->nama, 0, 1) }}
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <div class="font-bold text-gray-900">{{ $student->nama }}</div>
+                            <div class="text-xs text-gray-500 font-medium">{{ $student->nis }}</div>
+                        </div>
+                        @if($att)
+                            <div class="text-xs text-gray-400 flex-shrink-0"><i data-lucide="clock" class="w-3 h-3 inline mr-0.5"></i>{{ $att->updated_at->format('H:i') }}</div>
+                        @else
+                            <span class="text-[10px] text-red-500 font-semibold bg-red-50 px-2 py-0.5 rounded-full flex-shrink-0">Belum direkam</span>
+                        @endif
+                    </div>
+                    {{-- Status Radio Buttons (large, finger-friendly) --}}
+                    <div class="grid grid-cols-4 gap-2 mb-3">
+                        @foreach(['Hadir' => ['bg-emerald-500','border-emerald-500'], 'Sakit' => ['bg-amber-500','border-amber-500'], 'Izin' => ['bg-blue-500','border-blue-500'], 'Alpa' => ['bg-red-500','border-red-500']] as $label => $colors)
+                        <label class="cursor-pointer">
+                            <input type="radio" name="attendances[{{ $student->id }}][status]" value="{{ $label }}" {{ $status === $label ? 'checked' : '' }} required class="peer sr-only">
+                            <div class="text-center py-2.5 rounded-xl border-2 border-gray-200 peer-checked:border-{{ Str::before($colors[0],'-5') }} peer-checked:bg-{{ $colors[0] }} peer-checked:text-white text-xs font-bold text-gray-600 transition-all shadow-sm">
+                                {{ $label }}
+                            </div>
+                        </label>
+                        @endforeach
+                    </div>
+                    {{-- Keterangan --}}
+                    <input type="text" name="attendances[{{ $student->id }}][notes]" value="{{ $notes }}" placeholder="Keterangan tambahan..." class="w-full text-sm border-gray-200 rounded-xl focus:ring-sage focus:border-sage px-3 py-2 bg-gray-50">
+                </div>
+            @endforeach
+
+            <div class="sticky bottom-20 pt-2">
+                <button type="submit" class="w-full py-3.5 bg-sage hover:bg-emerald-800 text-white font-bold rounded-2xl transition-all shadow-lg shadow-sage/20 flex items-center justify-center gap-2">
+                    <i data-lucide="save" class="w-5 h-5"></i> Simpan Data Absensi
+                </button>
+            </div>
+        </div>
+
+        {{-- ── DESKTOP TABLE LAYOUT ── --}}
+        <div class="hidden md:block bg-white rounded-[2rem] shadow-sm border border-gray-100 overflow-hidden">
             <div class="overflow-x-auto">
                 <table class="w-full text-left text-sm text-gray-500">
                     <thead class="text-xs text-gray-700 uppercase bg-gray-50/80 border-b border-gray-100">
@@ -94,7 +141,7 @@
                         @foreach($students as $index => $student)
                             @php
                                 $att = $student->attendances->first();
-                                $status = $att ? $att->status : null; // If null, means not recorded yet
+                                $status = $att ? $att->status : null;
                                 $notes = $att ? $att->notes : '';
                             @endphp
                             <tr class="hover:bg-gray-50/50 transition-colors">
@@ -112,39 +159,25 @@
                                 </td>
                                 <td class="px-6 py-4">
                                     <div class="flex items-center gap-2">
-                                        <!-- Hadir -->
                                         <label class="cursor-pointer">
                                             <input type="radio" name="attendances[{{ $student->id }}][status]" value="Hadir" {{ $status === 'Hadir' ? 'checked' : '' }} required class="peer sr-only">
-                                            <div class="px-3 py-1.5 rounded-lg border border-gray-200 peer-checked:bg-emerald-500 peer-checked:text-white peer-checked:border-emerald-500 text-xs font-bold text-gray-600 transition-all shadow-sm hover:bg-emerald-50 flex items-center gap-1">
-                                                Hadir
-                                            </div>
+                                            <div class="px-3 py-1.5 rounded-lg border border-gray-200 peer-checked:bg-emerald-500 peer-checked:text-white peer-checked:border-emerald-500 text-xs font-bold text-gray-600 transition-all shadow-sm hover:bg-emerald-50">Hadir</div>
                                         </label>
-                                        <!-- Sakit -->
                                         <label class="cursor-pointer">
                                             <input type="radio" name="attendances[{{ $student->id }}][status]" value="Sakit" {{ $status === 'Sakit' ? 'checked' : '' }} required class="peer sr-only">
-                                            <div class="px-3 py-1.5 rounded-lg border border-gray-200 peer-checked:bg-amber-500 peer-checked:text-white peer-checked:border-amber-500 text-xs font-bold text-gray-600 transition-all shadow-sm hover:bg-amber-50 flex items-center gap-1">
-                                                Sakit
-                                            </div>
+                                            <div class="px-3 py-1.5 rounded-lg border border-gray-200 peer-checked:bg-amber-500 peer-checked:text-white peer-checked:border-amber-500 text-xs font-bold text-gray-600 transition-all shadow-sm hover:bg-amber-50">Sakit</div>
                                         </label>
-                                        <!-- Izin -->
                                         <label class="cursor-pointer">
                                             <input type="radio" name="attendances[{{ $student->id }}][status]" value="Izin" {{ $status === 'Izin' ? 'checked' : '' }} required class="peer sr-only">
-                                            <div class="px-3 py-1.5 rounded-lg border border-gray-200 peer-checked:bg-blue-500 peer-checked:text-white peer-checked:border-blue-500 text-xs font-bold text-gray-600 transition-all shadow-sm hover:bg-blue-50 flex items-center gap-1">
-                                                Izin
-                                            </div>
+                                            <div class="px-3 py-1.5 rounded-lg border border-gray-200 peer-checked:bg-blue-500 peer-checked:text-white peer-checked:border-blue-500 text-xs font-bold text-gray-600 transition-all shadow-sm hover:bg-blue-50">Izin</div>
                                         </label>
-                                        <!-- Alpa -->
                                         <label class="cursor-pointer">
                                             <input type="radio" name="attendances[{{ $student->id }}][status]" value="Alpa" {{ $status === 'Alpa' ? 'checked' : '' }} required class="peer sr-only">
-                                            <div class="px-3 py-1.5 rounded-lg border border-gray-200 peer-checked:bg-red-500 peer-checked:text-white peer-checked:border-red-500 text-xs font-bold text-gray-600 transition-all shadow-sm hover:bg-red-50 flex items-center gap-1">
-                                                Alpa
-                                            </div>
+                                            <div class="px-3 py-1.5 rounded-lg border border-gray-200 peer-checked:bg-red-500 peer-checked:text-white peer-checked:border-red-500 text-xs font-bold text-gray-600 transition-all shadow-sm hover:bg-red-50">Alpa</div>
                                         </label>
                                     </div>
                                     @if(!$att)
-                                        <div class="text-[10px] text-red-500 mt-1.5 font-semibold italic">
-                                            * Belum direkam
-                                        </div>
+                                        <div class="text-[10px] text-red-500 mt-1.5 font-semibold italic">* Belum direkam</div>
                                     @endif
                                 </td>
                                 <td class="px-6 py-4 text-center">
@@ -165,7 +198,7 @@
                     </tbody>
                 </table>
             </div>
-            
+
             <!-- Submit Footer -->
             <div class="p-6 bg-gray-50/50 border-t border-gray-100 flex items-center justify-end">
                 <button type="submit" class="px-6 py-3 bg-sage hover:bg-emerald-800 text-white font-semibold rounded-xl transition-all shadow-md shadow-sage/20 hover:-translate-y-0.5 flex items-center">
