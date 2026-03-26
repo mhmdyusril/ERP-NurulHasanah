@@ -6,9 +6,9 @@
         </button>
         
         <!-- Page Context (Desktop) -->
-        <div class="hidden md:flex items-center gap-3">
-            <div class="w-1 h-6 bg-sage/30 rounded-full"></div>
-            <h1 class="text-sm font-bold text-gray-900 tracking-tight">
+        <div class="hidden md:flex items-center gap-3 min-w-0">
+            <div class="w-1 h-6 bg-sage/30 rounded-full flex-shrink-0"></div>
+            <h1 class="text-sm font-bold text-gray-900 tracking-tight truncate max-w-xs">
                 @isset($header) {{ strip_tags($header) }} @else Dashboard @endisset
             </h1>
         </div>

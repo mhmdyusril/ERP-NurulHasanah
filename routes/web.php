@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\GeminiController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -49,6 +50,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    // Gemini AI Chat (proxy — API key aman di server)
+    Route::post('/gemini/chat', [GeminiController::class, 'chat'])->name('gemini.chat');
 
     // Modul yang bisa diakses Admin
     Route::middleware(['role:admin'])->group(function () {

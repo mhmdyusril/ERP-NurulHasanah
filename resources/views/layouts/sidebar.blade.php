@@ -13,15 +13,9 @@
 
 <!-- Sidebar -->
 <aside 
-    x-show="sidebarOpen || window.innerWidth >= 768"
-    x-transition:enter="transition ease-in-out duration-300 transform"
-    x-transition:enter-start="-translate-x-full"
-    x-transition:enter-end="translate-x-0"
-    x-transition:leave="transition ease-in-out duration-300 transform"
-    x-transition:leave-start="translate-x-0"
-    x-transition:leave-end="-translate-x-full"
-    class="fixed inset-y-0 left-0 w-[280px] bg-white border-r border-gray-100 flex flex-col h-screen md:sticky md:top-0 z-50 shadow-[4px_0_24px_rgba(0,0,0,0.02)] transition-transform duration-300 ease-in-out"
-    :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'"
+    x-bind:style="sidebarOpen ? 'transform: translateX(0);' : 'transform: translateX(-100%);'"
+    style="transform: translateX(-100%);"
+    class="fixed inset-y-0 left-0 w-[280px] bg-white border-r border-gray-100 flex flex-col h-screen z-50 shadow-[4px_0_24px_rgba(0,0,0,0.02)] transition-transform duration-300 ease-in-out layout-sidebar"
     @resize.window="if (window.innerWidth >= 768) sidebarOpen = false">
     
     <!-- Header/Logo Area -->
