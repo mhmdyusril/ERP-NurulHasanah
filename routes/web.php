@@ -21,6 +21,26 @@ Route::get('/', function () {
     return view('welcome', compact('carouselImages'));
 });
 
+// Endpoint Keep-Alive Supabase & Vercel
+Route::get('/cron/keep-alive', function () {
+    try {
+        \Illuminate\Support\Facades\DB::select('SELECT 1');
+        $studentsCount = \App\Models\Student::count();
+        return response()->json([
+            'status' => 'success',
+            'database' => 'connected',
+            'students_count' => $studentsCount,
+            'timestamp' => now()->toIso8601String(),
+            'message' => 'Supabase connection pinged successfully. Database is active!'
+        ]);
+    } catch (\Throwable $e) {
+        return response()->json([
+            'status' => 'error',
+            'message' => $e->getMessage()
+        ], 500);
+    }
+})->name('cron.keep-alive');
+
 Route::get('/set-telegram-webhook', function () {
     $url = url('/bot/webhook');
     try {

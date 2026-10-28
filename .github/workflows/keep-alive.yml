@@ -1,0 +1,28 @@
+name: Keep Alive Supabase & Vercel
+
+on:
+  schedule:
+    # 02:00 UTC = 09:00 WIB (UTC+7) setiap hari
+    - cron: '0 2 * * *'
+  workflow_dispatch: # Memungkinkan tombol "Run workflow" manual di GitHub Actions
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Keep-Alive Endpoint
+        run: |
+          echo "Pinging https://ra-nurulhasanah.vercel.app/cron/keep-alive at $(date -u)"
+          RESPONSE=$(curl -s -w "\nHTTP_STATUS:%{http_code}" "https://ra-nurulhasanah.vercel.app/cron/keep-alive")
+          HTTP_STATUS=$(echo "$RESPONSE" | grep "HTTP_STATUS" | cut -d':' -f2)
+          BODY=$(echo "$RESPONSE" | grep -v "HTTP_STATUS")
+          
+          echo "Response Body: $BODY"
+          echo "HTTP Status: $HTTP_STATUS"
+          
+          if [ "$HTTP_STATUS" -eq 200 ]; then
+            echo "✅ Successfully pinged Supabase & Vercel. Database remains active!"
+          else
+            echo "❌ Failed to ping. Status: $HTTP_STATUS"
+            exit 1
+          fi

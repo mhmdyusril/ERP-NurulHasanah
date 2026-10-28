@@ -241,4 +241,18 @@ class ErpAuditTest extends TestCase
             'amount' => 50000
         ]);
     }
+
+    /**
+     * TEST 9: Keep-Alive Endpoint for Supabase & Vercel
+     */
+    public function test_keep_alive_cron_endpoint_pings_database(): void
+    {
+        $response = $this->getJson(route('cron.keep-alive'));
+
+        $response->assertStatus(200)
+                 ->assertJson([
+                     'status' => 'success',
+                     'database' => 'connected',
+                 ]);
+    }
 }
