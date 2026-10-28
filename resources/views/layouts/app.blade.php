@@ -38,6 +38,19 @@
                     margin-left: 260px !important;
                 }
             }
+            @keyframes pageFadeIn {
+                from {
+                    opacity: 0.88;
+                    transform: translateY(3px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+            main {
+                animation: pageFadeIn 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+            }
         </style>
 
         {{-- ── Vite Assets ────────────────────────────────────────────────── --}}
@@ -59,6 +72,11 @@
     </head>
 
     <body class="font-sans antialiased text-slate-800 bg-slate-50 selection:bg-emerald-800 selection:text-white">
+
+        <!-- Top Loading Progress Bar -->
+        <div id="page-progress-bar" class="fixed top-0 left-0 right-0 h-[2.5px] z-[9999] pointer-events-none opacity-0 transition-opacity duration-200">
+            <div id="page-progress-bar-inner" class="h-full bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.8)] transition-all duration-300 ease-out" style="width: 0%;"></div>
+        </div>
 
         {{-- ── Main App Shell ──────────────────────────────────────────────── --}}
         <div x-data="{ sidebarOpen: false, aiOpen: false }" class="min-h-screen bg-slate-50 flex flex-col">
@@ -387,6 +405,60 @@
             }
 
             document.addEventListener('DOMContentLoaded', function () {
+                // Top Progress Bar for page navigation
+                const progressBar = document.getElementById('page-progress-bar');
+                const progressBarInner = document.getElementById('page-progress-bar-inner');
+                let progressInterval = null;
+
+                window.startPageProgress = function() {
+                    if (!progressBar || !progressBarInner) return;
+                    clearInterval(progressInterval);
+                    progressBar.style.opacity = '1';
+                    progressBarInner.style.transition = 'width 300ms ease-out';
+                    progressBarInner.style.width = '25%';
+
+                    let current = 25;
+                    progressInterval = setInterval(() => {
+                        if (current < 85) {
+                            current += Math.random() * 12;
+                            progressBarInner.style.width = current + '%';
+                        }
+                    }, 200);
+                };
+
+                window.finishPageProgress = function() {
+                    if (!progressBar || !progressBarInner) return;
+                    clearInterval(progressInterval);
+                    progressBarInner.style.transition = 'width 150ms ease-out';
+                    progressBarInner.style.width = '100%';
+                    setTimeout(() => {
+                        progressBar.style.opacity = '0';
+                        setTimeout(() => {
+                            progressBarInner.style.width = '0%';
+                        }, 200);
+                    }, 150);
+                };
+
+                // Intercept internal link clicks for instant top progress bar
+                document.addEventListener('click', function(e) {
+                    const link = e.target.closest('a');
+                    if (!link) return;
+                    const href = link.getAttribute('href');
+                    if (!href || href.startsWith('#') || href.startsWith('javascript:') || link.target === '_blank' || e.ctrlKey || e.metaKey) return;
+                    if (link.origin === window.location.origin) {
+                        window.startPageProgress();
+                    }
+                });
+
+                // Intercept form submissions
+                document.addEventListener('submit', function(e) {
+                    window.startPageProgress();
+                });
+
+                window.addEventListener('pageshow', function() {
+                    window.finishPageProgress();
+                });
+
                 @if(session('success'))
                     Swal.fire({
                         icon: 'success',
