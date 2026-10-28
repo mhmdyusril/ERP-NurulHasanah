@@ -59,7 +59,6 @@ Route::middleware('auth')->group(function () {
         Route::resource('teachers', \App\Http\Controllers\TeacherController::class)->except(['show']);
         Route::resource('classes', \App\Http\Controllers\ClassesController::class);
         Route::patch('students/{student}/status', [\App\Http\Controllers\StudentController::class, 'updateStatus'])->name('students.updateStatus');
-        Route::resource('students', \App\Http\Controllers\StudentController::class);
         Route::resource('payments', \App\Http\Controllers\PaymentController::class);
         Route::get('reports', [\App\Http\Controllers\ReportController::class, 'finance'])->name('reports.finance');
         Route::get('reports/export', [\App\Http\Controllers\ReportController::class, 'exportExcel'])->name('reports.export');
@@ -68,8 +67,11 @@ Route::middleware('auth')->group(function () {
 
     // Modul yang bisa diakses Admin dan Guru
     Route::middleware(['role:admin,guru'])->group(function () {
+        Route::get('students/cards', [\App\Http\Controllers\StudentController::class, 'cards'])->name('students.cards');
         Route::resource('students', \App\Http\Controllers\StudentController::class);
         Route::resource('academics', \App\Http\Controllers\AcademicRecordController::class);
+        Route::get('attendances/scan', [\App\Http\Controllers\AttendanceController::class, 'scan'])->name('attendances.scan');
+        Route::post('attendances/scan', [\App\Http\Controllers\AttendanceController::class, 'scanProcess'])->name('attendances.scan.process');
         Route::get('attendances', [\App\Http\Controllers\AttendanceController::class, 'index'])->name('attendances.index');
         Route::post('attendances', [\App\Http\Controllers\AttendanceController::class, 'store'])->name('attendances.store');
         Route::resource('savings', \App\Http\Controllers\SavingController::class)->only(['index', 'show', 'store']);

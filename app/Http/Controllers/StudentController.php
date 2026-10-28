@@ -23,9 +23,10 @@ class StudentController extends Controller
 
         if ($request->has('search')) {
             $search = $request->get('search');
-            $query->where(function($q) use ($search) {
-                $q->where('nama', 'ilike', '%' . $search . '%')
-                  ->orWhere('nis', 'ilike', '%' . $search . '%');
+            $likeOp = config('database.default') === 'pgsql' ? 'ilike' : 'like';
+            $query->where(function($q) use ($search, $likeOp) {
+                $q->where('nama', $likeOp, '%' . $search . '%')
+                  ->orWhere('nis', $likeOp, '%' . $search . '%');
             });
         }
 
@@ -134,5 +135,33 @@ class StudentController extends Controller
         $student->update(['status' => $request->status]);
 
         return redirect()->route('students.index')->with('success', 'Status siswa ' . $student->nama . ' berhasil diubah menjadi ' . $request->status . '.');
+    }
+
+    /**
+     * Preview dan cetak kartu tanda santri ber-QR Code
+     */
+    public function cards(Request $request)
+    {
+        $classes = Classes::all();
+        $class_id = $request->get('class_id');
+        $search = $request->get('search');
+
+        $query = Student::active()->with('classroom');
+
+        if ($class_id) {
+            $query->where('class_id', $class_id);
+        }
+
+        if ($search) {
+            $likeOp = config('database.default') === 'pgsql' ? 'ilike' : 'like';
+            $query->where(function($q) use ($search, $likeOp) {
+                $q->where('nama', $likeOp, '%' . $search . '%')
+                  ->orWhere('nis', $likeOp, '%' . $search . '%');
+            });
+        }
+
+        $students = $query->orderBy('nama', 'asc')->get();
+
+        return view('students.cards', compact('students', 'classes', 'class_id', 'search'));
     }
 }

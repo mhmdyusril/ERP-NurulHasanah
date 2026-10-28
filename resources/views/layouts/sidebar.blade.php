@@ -110,12 +110,20 @@
             Akademik & Nilai
         </a>
 
-        <a href="{{ route('attendances.index') }}" class="group flex items-center gap-3 px-4 py-3.5 rounded-xl transition-all duration-300 relative overflow-hidden {{ request()->routeIs('attendances.*') ? 'bg-sage/10 text-sage font-bold shadow-sm' : 'text-gray-500 hover:bg-gray-50 hover:text-gray-900 font-medium' }}">
-            @if(request()->routeIs('attendances.*'))
+        <a href="{{ route('attendances.scan') }}" class="group flex items-center gap-3 px-4 py-3.5 rounded-xl transition-all duration-300 relative overflow-hidden {{ request()->routeIs('attendances.scan') ? 'bg-sage/10 text-sage font-bold shadow-sm' : 'text-gray-500 hover:bg-gray-50 hover:text-gray-900 font-medium' }}">
+            @if(request()->routeIs('attendances.scan'))
             <span class="absolute left-0 inset-y-2 w-1.5 bg-sage rounded-r-md"></span>
             @endif
-            <i data-lucide="calendar-check" class="w-5 h-5 {{ request()->routeIs('attendances.*') ? 'text-sage' : 'text-gray-400 group-hover:text-sage' }} transition-colors"></i>
-            Absensi Harian
+            <i data-lucide="qr-code" class="w-5 h-5 {{ request()->routeIs('attendances.scan') ? 'text-sage' : 'text-gray-400 group-hover:text-sage' }} transition-colors"></i>
+            Scan Presensi QR
+        </a>
+
+        <a href="{{ route('attendances.index') }}" class="group flex items-center gap-3 px-4 py-3.5 rounded-xl transition-all duration-300 relative overflow-hidden {{ request()->routeIs('attendances.index') ? 'bg-sage/10 text-sage font-bold shadow-sm' : 'text-gray-500 hover:bg-gray-50 hover:text-gray-900 font-medium' }}">
+            @if(request()->routeIs('attendances.index'))
+            <span class="absolute left-0 inset-y-2 w-1.5 bg-sage rounded-r-md"></span>
+            @endif
+            <i data-lucide="calendar-check" class="w-5 h-5 {{ request()->routeIs('attendances.index') ? 'text-sage' : 'text-gray-400 group-hover:text-sage' }} transition-colors"></i>
+            Rekap Absensi
         </a>
 
         <a href="{{ route('savings.index') }}" class="group flex items-center gap-3 px-4 py-3.5 rounded-xl transition-all duration-300 relative overflow-hidden {{ request()->routeIs('savings.*') ? 'bg-sage/10 text-sage font-bold shadow-sm' : 'text-gray-500 hover:bg-gray-50 hover:text-gray-900 font-medium' }}">

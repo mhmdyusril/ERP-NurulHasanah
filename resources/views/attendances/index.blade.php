@@ -8,6 +8,14 @@
                 </h2>
                 <p class="text-sm md:text-base text-gray-500 mt-1 font-medium">Kelola data kehadiran siswa setiap hari secara cepat dan efisien.</p>
             </div>
+            <div class="flex items-center gap-3">
+                <a href="{{ route('attendances.scan') }}" class="inline-flex items-center justify-center px-4 py-2.5 bg-sage hover:bg-emerald-800 rounded-xl text-sm font-semibold text-white transition-all shadow-md shadow-sage/20 hover:-translate-y-0.5">
+                    <i data-lucide="qr-code" class="w-4 h-4 mr-2"></i> Scan Presensi QR
+                </a>
+                <a href="{{ route('students.cards') }}" class="inline-flex items-center justify-center px-4 py-2.5 bg-white hover:bg-gray-50 border border-gray-200 rounded-xl text-sm font-semibold text-gray-700 transition-all shadow-sm">
+                    <i data-lucide="contact" class="w-4 h-4 mr-2 text-sage"></i> Cetak Kartu Siswa
+                </a>
+            </div>
         </div>
     </x-slot>
 
