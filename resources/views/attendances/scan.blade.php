@@ -1,73 +1,73 @@
 <x-app-layout>
     <x-slot name="header">
-        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
-                <h2 class="font-bold text-2xl md:text-3xl text-gray-900 tracking-tight flex items-center gap-2">
-                    <i data-lucide="qr-code" class="w-8 h-8 text-sage"></i>
+                <h2 class="font-extrabold text-xl sm:text-2xl text-slate-900 tracking-tight flex items-center gap-2">
+                    <i data-lucide="qr-code" class="w-6 h-6 text-emerald-800"></i>
                     {{ __('Presensi Scan QR Code') }}
                 </h2>
-                <p class="text-sm md:text-base text-gray-500 mt-1 font-medium">Scan kartu QR atau barcode murid untuk pencatatan kehadiran harian otomatis.</p>
+                <p class="text-xs sm:text-sm text-slate-500 mt-0.5">Pindai kartu identitas santri untuk pencatatan kehadiran harian otomatis.</p>
             </div>
-            <div class="flex items-center gap-3">
-                <a href="{{ route('students.cards') }}" class="inline-flex items-center justify-center px-4 py-2.5 bg-white hover:bg-gray-50 border border-gray-200 rounded-xl text-sm font-semibold text-gray-700 transition-all shadow-sm">
-                    <i data-lucide="contact" class="w-4 h-4 mr-2 text-sage"></i> Cetak Kartu Siswa
+            <div class="flex items-center gap-2">
+                <a href="{{ route('students.cards') }}" class="inline-flex items-center px-3.5 py-2 bg-white hover:bg-slate-50 border border-slate-200 rounded-lg text-xs font-semibold text-slate-700 transition shadow-2xs">
+                    <i data-lucide="contact" class="w-4 h-4 mr-1.5 text-emerald-800"></i> Cetak Kartu Siswa
                 </a>
-                <a href="{{ route('attendances.index') }}" class="inline-flex items-center justify-center px-4 py-2.5 bg-sage hover:bg-emerald-800 rounded-xl text-sm font-semibold text-white transition-all shadow-md shadow-sage/20 hover:-translate-y-0.5">
-                    <i data-lucide="list" class="w-4 h-4 mr-2"></i> Rekap Absensi Manual
+                <a href="{{ route('attendances.index') }}" class="inline-flex items-center px-3.5 py-2 bg-emerald-900 hover:bg-emerald-800 rounded-lg text-xs font-bold text-white transition shadow-xs">
+                    <i data-lucide="list" class="w-4 h-4 mr-1.5"></i> Rekap Manual
                 </a>
             </div>
         </div>
     </x-slot>
 
     <!-- Stat Summary Cards Row -->
-    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 mb-8">
-        <div class="bg-white rounded-2xl p-5 shadow-sm border border-gray-100 flex items-center justify-between">
+    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3.5 mb-6">
+        <div class="bg-white rounded-xl p-4 border border-slate-200/80 shadow-xs flex items-center justify-between">
             <div>
-                <span class="text-xs font-bold text-gray-400 uppercase tracking-wider block">Total Murid</span>
-                <span id="stat-total" class="text-2xl font-black text-gray-900 mt-1 block">{{ $totalStudents }}</span>
+                <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider block">Total Murid</span>
+                <span id="stat-total" class="text-xl font-black text-slate-900 mt-0.5 block">{{ $totalStudents }}</span>
             </div>
-            <div class="w-12 h-12 rounded-xl bg-gray-50 text-gray-600 flex items-center justify-center">
-                <i data-lucide="users" class="w-6 h-6"></i>
+            <div class="w-9 h-9 rounded-lg bg-slate-100 text-slate-600 flex items-center justify-center">
+                <i data-lucide="users" class="w-4 h-4"></i>
             </div>
         </div>
 
-        <div class="bg-white rounded-2xl p-5 shadow-sm border border-emerald-100 bg-emerald-50/20 flex items-center justify-between">
+        <div class="bg-white rounded-xl p-4 border border-emerald-200/80 bg-emerald-50/20 shadow-xs flex items-center justify-between">
             <div>
-                <span class="text-xs font-bold text-emerald-600 uppercase tracking-wider block">Hadir Hari Ini</span>
-                <span id="stat-hadir" class="text-2xl font-black text-emerald-600 mt-1 block">{{ $hadir }}</span>
+                <span class="text-[11px] font-bold text-emerald-700 uppercase tracking-wider block">Hadir</span>
+                <span id="stat-hadir" class="text-xl font-black text-emerald-700 mt-0.5 block">{{ $hadir }}</span>
             </div>
-            <div class="w-12 h-12 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center">
-                <i data-lucide="user-check" class="w-6 h-6"></i>
+            <div class="w-9 h-9 rounded-lg bg-emerald-100 text-emerald-800 flex items-center justify-center">
+                <i data-lucide="user-check" class="w-4 h-4"></i>
             </div>
         </div>
 
-        <div class="bg-white rounded-2xl p-5 shadow-sm border border-amber-100 bg-amber-50/20 flex items-center justify-between">
+        <div class="bg-white rounded-xl p-4 border border-amber-200/80 bg-amber-50/20 shadow-xs flex items-center justify-between">
             <div>
-                <span class="text-xs font-bold text-amber-600 uppercase tracking-wider block">Sakit</span>
-                <span id="stat-sakit" class="text-2xl font-black text-amber-600 mt-1 block">{{ $sakit }}</span>
+                <span class="text-[11px] font-bold text-amber-700 uppercase tracking-wider block">Sakit</span>
+                <span id="stat-sakit" class="text-xl font-black text-amber-700 mt-0.5 block">{{ $sakit }}</span>
             </div>
-            <div class="w-12 h-12 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center">
-                <i data-lucide="activity" class="w-6 h-6"></i>
+            <div class="w-9 h-9 rounded-lg bg-amber-100 text-amber-800 flex items-center justify-center">
+                <i data-lucide="activity" class="w-4 h-4"></i>
             </div>
         </div>
 
-        <div class="bg-white rounded-2xl p-5 shadow-sm border border-blue-100 bg-blue-50/20 flex items-center justify-between">
+        <div class="bg-white rounded-xl p-4 border border-blue-200/80 bg-blue-50/20 shadow-xs flex items-center justify-between">
             <div>
-                <span class="text-xs font-bold text-blue-600 uppercase tracking-wider block">Izin</span>
-                <span id="stat-izin" class="text-2xl font-black text-blue-600 mt-1 block">{{ $izin }}</span>
+                <span class="text-[11px] font-bold text-blue-700 uppercase tracking-wider block">Izin</span>
+                <span id="stat-izin" class="text-xl font-black text-blue-700 mt-0.5 block">{{ $izin }}</span>
             </div>
-            <div class="w-12 h-12 rounded-xl bg-blue-100 text-blue-700 flex items-center justify-center">
-                <i data-lucide="mail" class="w-6 h-6"></i>
+            <div class="w-9 h-9 rounded-lg bg-blue-100 text-blue-800 flex items-center justify-center">
+                <i data-lucide="mail" class="w-4 h-4"></i>
             </div>
         </div>
 
-        <div class="col-span-2 sm:col-span-1 bg-white rounded-2xl p-5 shadow-sm border border-rose-100 bg-rose-50/20 flex items-center justify-between">
+        <div class="col-span-2 sm:col-span-1 bg-white rounded-xl p-4 border border-rose-200/80 bg-rose-50/20 shadow-xs flex items-center justify-between">
             <div>
-                <span class="text-xs font-bold text-rose-600 uppercase tracking-wider block">Belum Absen</span>
-                <span id="stat-belum" class="text-2xl font-black text-rose-600 mt-1 block">{{ $belumAbsen }}</span>
+                <span class="text-[11px] font-bold text-rose-700 uppercase tracking-wider block">Belum Hadir</span>
+                <span id="stat-belum" class="text-xl font-black text-rose-700 mt-0.5 block">{{ $belumAbsen }}</span>
             </div>
-            <div class="w-12 h-12 rounded-xl bg-rose-100 text-rose-700 flex items-center justify-center">
-                <i data-lucide="clock" class="w-6 h-6"></i>
+            <div class="w-9 h-9 rounded-lg bg-rose-100 text-rose-800 flex items-center justify-center">
+                <i data-lucide="clock" class="w-4 h-4"></i>
             </div>
         </div>
     </div>
@@ -79,64 +79,83 @@
         <div class="lg:col-span-5 space-y-6">
             
             <!-- Camera Scanner Box -->
-            <div class="bg-white rounded-[2rem] p-6 shadow-sm border border-gray-100 relative overflow-hidden">
-                <div class="flex items-center justify-between mb-4">
+            <div class="bg-white rounded-xl p-5 border border-slate-200/80 shadow-xs relative">
+                <div class="flex items-center justify-between mb-3">
                     <div class="flex items-center gap-2">
-                        <span class="relative flex h-3 w-3">
+                        <span class="relative flex h-2.5 w-2.5">
                             <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                            <span class="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
+                            <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
                         </span>
-                        <h3 class="font-bold text-gray-900 text-base">Kamera Scanner QR</h3>
+                        <h3 class="font-bold text-slate-900 text-sm">Kamera Scanner QR Santri</h3>
                     </div>
-                    <button id="btn-toggle-cam" onclick="toggleCamera()" class="px-3 py-1.5 rounded-lg text-xs font-bold border transition-colors flex items-center gap-1.5 border-sage/20 text-sage bg-sage/5 hover:bg-sage/10">
+                    <button id="btn-toggle-cam" onclick="toggleCamera()" class="px-3 py-1.5 rounded-lg text-xs font-bold border transition-colors flex items-center gap-1.5 border-emerald-800/30 text-emerald-800 bg-emerald-50 hover:bg-emerald-100">
                         <i data-lucide="camera" class="w-3.5 h-3.5"></i>
                         <span id="btn-cam-text">Nyalakan Kamera</span>
                     </button>
                 </div>
 
-                <!-- QR Scanner Render Target -->
-                <div id="qr-reader-container" class="rounded-2xl overflow-hidden bg-gray-950 aspect-[4/3] relative flex flex-col items-center justify-center text-white border border-gray-800">
+                <!-- QR Scanner Render Target (Clean Square 1:1 Viewport) -->
+                <div id="qr-reader-container" class="rounded-xl overflow-hidden bg-slate-950 aspect-square relative flex flex-col items-center justify-center text-white border border-slate-800">
                     <div id="qr-reader" class="w-full h-full"></div>
-                    <div id="qr-placeholder" class="text-center p-6 flex flex-col items-center">
-                        <div class="w-16 h-16 rounded-full bg-white/10 flex items-center justify-center mb-3 text-sage">
-                            <i data-lucide="scan" class="w-8 h-8 text-white"></i>
+                    
+                    <!-- Clean QR Reticle Overlay with 4 Corner Brackets & Laser Scan Line -->
+                    <div id="qr-reticle" class="absolute inset-0 pointer-events-none flex items-center justify-center hidden z-20">
+                        <div class="relative w-56 h-56 sm:w-64 sm:h-64 flex items-center justify-center">
+                            <!-- 4 Corner Brackets (Square QR Frame) -->
+                            <div class="absolute top-0 left-0 w-7 h-7 border-t-[3.5px] border-l-[3.5px] border-emerald-400 rounded-tl-md"></div>
+                            <div class="absolute top-0 right-0 w-7 h-7 border-t-[3.5px] border-r-[3.5px] border-emerald-400 rounded-tr-md"></div>
+                            <div class="absolute bottom-0 left-0 w-7 h-7 border-b-[3.5px] border-l-[3.5px] border-emerald-400 rounded-bl-md"></div>
+                            <div class="absolute bottom-0 right-0 w-7 h-7 border-b-[3.5px] border-r-[3.5px] border-emerald-400 rounded-br-md"></div>
+                            
+                            <!-- Animated Vertical Laser Scanner Line -->
+                            <div class="absolute inset-x-2 h-0.5 bg-gradient-to-r from-transparent via-emerald-400 to-transparent shadow-[0_0_10px_rgba(52,211,153,0.9)] animate-[scanLaser_2.2s_ease-in-out_infinite]"></div>
+
+                            <span class="absolute -bottom-6 text-[10px] font-bold text-emerald-300 uppercase tracking-widest bg-slate-950/80 px-2 py-0.5 rounded">
+                                Posisikan QR Code Santri
+                            </span>
                         </div>
-                        <h4 class="font-bold text-sm text-gray-200">Kamera Siap Diaktifkan</h4>
-                        <p class="text-xs text-gray-400 max-w-xs mt-1">Klik tombol di atas untuk mengaktifkan pemindaian otomatis kartu santri.</p>
-                        <button onclick="toggleCamera()" class="mt-4 px-4 py-2 bg-sage hover:bg-emerald-800 text-white rounded-xl text-xs font-bold transition shadow-md">
-                            Aktifkan Sekarang
+                    </div>
+
+                    <div id="qr-placeholder" class="text-center p-6 flex flex-col items-center z-10">
+                        <div class="w-14 h-14 rounded-2xl bg-white/10 flex items-center justify-center mb-3 text-white border border-white/10">
+                            <i data-lucide="qr-code" class="w-7 h-7 text-emerald-400"></i>
+                        </div>
+                        <h4 class="font-bold text-sm text-slate-200">Kamera Scanner Non-Aktif</h4>
+                        <p class="text-xs text-slate-400 max-w-xs mt-1">Arahkan QR code pada kartu santri ke dalam kotak pemindai.</p>
+                        <button onclick="toggleCamera()" class="mt-4 px-4 py-2 bg-emerald-700 hover:bg-emerald-600 text-white rounded-lg text-xs font-bold transition shadow-xs">
+                            Aktifkan Kamera Sekarang
                         </button>
                     </div>
                 </div>
 
                 <!-- Scanner Instruction Note -->
-                <div class="mt-4 flex items-center gap-2 text-xs text-gray-500 bg-gray-50 p-3 rounded-xl">
-                    <i data-lucide="info" class="w-4 h-4 text-gray-400 shrink-0"></i>
-                    <span>Arahkan kode QR kartu santri ke dalam kotak viewfinder. Audio konfirmasi akan berbunyi saat terbaca.</span>
+                <div class="mt-3 flex items-center gap-2 text-xs text-slate-500 bg-slate-50 p-2.5 rounded-lg border border-slate-100">
+                    <i data-lucide="info" class="w-4 h-4 text-emerald-800 shrink-0"></i>
+                    <span>Tahan kartu santri dengan tenang di depan kamera hingga terdengar nada konfirmasi.</span>
                 </div>
             </div>
 
             <!-- Manual Barcode & NIS Input -->
-            <div class="bg-white rounded-[2rem] p-6 shadow-sm border border-gray-100">
-                <div class="flex items-center gap-2 mb-3">
-                    <i data-lucide="barcode" class="w-5 h-5 text-sage"></i>
-                    <h3 class="font-bold text-gray-900 text-sm uppercase tracking-wide">Input Barcode / NIS Manual</h3>
+            <div class="bg-white rounded-xl p-5 border border-slate-200/80 shadow-xs">
+                <div class="flex items-center gap-2 mb-1.5">
+                    <i data-lucide="keyboard" class="w-4 h-4 text-emerald-800"></i>
+                    <h3 class="font-bold text-slate-900 text-xs uppercase tracking-wider">Input Kode Santri / Scanner USB</h3>
                 </div>
-                <p class="text-xs text-gray-500 mb-4 font-medium">Gunakan barcode scanner USB fisik atau ketik NIS murid secara manual.</p>
+                <p class="text-xs text-slate-500 mb-3 font-medium">Ketik NIS santri atau gunakan hardware scanner barcode/QR USB fisik.</p>
 
                 <form id="manual-scan-form" onsubmit="handleManualSubmit(event)" class="space-y-3">
                     <div class="flex gap-2">
-                        <div class="relative flex-1 group">
-                            <input type="text" id="manual-code" placeholder="Contoh: 20260001..." autocomplete="off" autofocus
-                                   class="block w-full px-4 py-3 bg-gray-50 border-gray-200 rounded-xl focus:ring-2 focus:ring-sage/20 focus:border-sage focus:bg-white text-gray-900 font-semibold text-sm transition-all shadow-sm">
+                        <div class="relative flex-1">
+                            <input type="text" id="manual-code" placeholder="Contoh NIS: 20260001..." autocomplete="off" autofocus
+                                   class="block w-full px-3.5 py-2.5 bg-slate-50 border-slate-200 rounded-lg focus:ring-1 focus:ring-emerald-700 focus:border-emerald-700 focus:bg-white text-slate-900 font-semibold text-xs sm:text-sm transition-all shadow-2xs">
                         </div>
-                        <select id="manual-status" class="w-28 px-3 py-3 bg-gray-50 border-gray-200 rounded-xl focus:ring-2 focus:ring-sage/20 focus:border-sage font-bold text-xs text-gray-700">
+                        <select id="manual-status" class="w-24 px-2.5 py-2.5 bg-slate-50 border-slate-200 rounded-lg focus:ring-1 focus:ring-emerald-700 focus:border-emerald-700 font-bold text-xs text-slate-700">
                             <option value="Hadir" selected>Hadir</option>
                             <option value="Sakit">Sakit</option>
                             <option value="Izin">Izin</option>
                             <option value="Alpa">Alpa</option>
                         </select>
-                        <button type="submit" id="btn-submit-manual" class="px-5 py-3 bg-sage hover:bg-emerald-800 text-white rounded-xl text-sm font-bold transition shadow-md shadow-sage/20 disabled:opacity-50">
+                        <button type="submit" id="btn-submit-manual" class="px-4 py-2.5 bg-emerald-900 hover:bg-emerald-800 text-white rounded-lg text-xs font-bold transition shadow-xs disabled:opacity-50">
                             Submit
                         </button>
                     </div>
@@ -144,14 +163,14 @@
             </div>
 
             <!-- Live Feedback Banner (Hidden by Default) -->
-            <div id="scan-feedback" class="hidden rounded-2xl p-5 border transition-all animate-fade-in shadow-sm">
-                <div class="flex items-start gap-4">
-                    <div id="feedback-icon-box" class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0">
-                        <i id="feedback-icon" data-lucide="check" class="w-6 h-6 text-white"></i>
+            <div id="scan-feedback" class="hidden rounded-xl p-4 border transition-all shadow-xs">
+                <div class="flex items-start gap-3">
+                    <div id="feedback-icon-box" class="w-9 h-9 rounded-lg flex items-center justify-center shrink-0">
+                        <i id="feedback-icon" data-lucide="check" class="w-5 h-5 text-white"></i>
                     </div>
                     <div class="flex-1">
-                        <h4 id="feedback-title" class="font-bold text-sm"></h4>
-                        <div id="feedback-details" class="mt-2 text-xs space-y-1"></div>
+                        <h4 id="feedback-title" class="font-bold text-xs sm:text-sm"></h4>
+                        <div id="feedback-details" class="mt-1.5 text-xs space-y-0.5"></div>
                     </div>
                 </div>
             </div>
@@ -160,14 +179,14 @@
 
         <!-- Right: Realtime Attendance Feed -->
         <div class="lg:col-span-7">
-            <div class="bg-white rounded-[2rem] shadow-sm border border-gray-100 overflow-hidden">
-                <div class="p-6 border-b border-gray-100 flex items-center justify-between">
+            <div class="bg-white rounded-xl shadow-xs border border-slate-200/80 overflow-hidden">
+                <div class="p-4 sm:p-5 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
                     <div>
-                        <h3 class="font-bold text-gray-900 text-lg">Aktivitas Presensi Hari Ini</h3>
-                        <p class="text-xs text-gray-500 mt-0.5">Daftar kehadiran yang baru saja dicatat secara otomatis</p>
+                        <h3 class="font-bold text-slate-900 text-sm sm:text-base">Aktivitas Presensi Hari Ini</h3>
+                        <p class="text-xs text-slate-400">Daftar santri yang baru saja berhasil presensi</p>
                     </div>
-                    <span class="inline-flex items-center gap-1.5 px-3 py-1 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-full text-xs font-bold">
-                        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> Live Update
+                    <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 bg-emerald-50 text-emerald-800 border border-emerald-200 rounded-full text-xs font-bold">
+                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-600 animate-pulse"></span> Live Feed
                     </span>
                 </div>
 
@@ -279,18 +298,33 @@
 
         async function startCamera() {
             const placeholder = document.getElementById('qr-placeholder');
+            const reticle = document.getElementById('qr-reticle');
             const btnCamText = document.getElementById('btn-cam-text');
 
             try {
-                html5QrCode = new Html5Qrcode("qr-reader");
+                // Initialize strictly with QR Code format
+                html5QrCode = new Html5Qrcode("qr-reader", {
+                    formatsToSupport: [ Html5QrcodeSupportedFormats.QR_CODE ],
+                    verbose: false
+                });
                 placeholder.classList.add('hidden');
                 
+                // Pure Square QR Viewfinder
+                const qrboxFunction = function(viewfinderWidth, viewfinderHeight) {
+                    const minEdge = Math.min(viewfinderWidth, viewfinderHeight);
+                    const edgeSize = Math.floor(minEdge * 0.70);
+                    return {
+                        width: edgeSize,
+                        height: edgeSize
+                    };
+                };
+
                 await html5QrCode.start(
                     { facingMode: "environment" },
                     {
-                        fps: 10,
-                        qrbox: { width: 250, height: 250 },
-                        aspectRatio: 1.333334
+                        fps: 15,
+                        qrbox: qrboxFunction,
+                        aspectRatio: 1.0
                     },
                     (decodedText) => {
                         handleCodeScan(decodedText);
@@ -300,11 +334,13 @@
                     }
                 );
 
+                if (reticle) reticle.classList.remove('hidden');
                 isCameraActive = true;
                 btnCamText.innerText = "Matikan Kamera";
             } catch (err) {
                 console.error("Camera start failed:", err);
                 placeholder.classList.remove('hidden');
+                if (reticle) reticle.classList.add('hidden');
                 alert("Tidak dapat mengakses kamera: " + (err.message || err));
                 isCameraActive = false;
                 btnCamText.innerText = "Nyalakan Kamera";
@@ -312,6 +348,7 @@
         }
 
         async function stopCamera() {
+            const reticle = document.getElementById('qr-reticle');
             if (html5QrCode && isCameraActive) {
                 try {
                     await html5QrCode.stop();
@@ -320,6 +357,7 @@
                     console.error("Stop camera error:", e);
                 }
             }
+            if (reticle) reticle.classList.add('hidden');
             document.getElementById('qr-placeholder').classList.remove('hidden');
             document.getElementById('btn-cam-text').innerText = "Nyalakan Kamera";
             isCameraActive = false;
@@ -464,4 +502,39 @@
             tbody.insertBefore(tr, tbody.firstChild);
         }
     </script>
+
+    <style>
+        #qr-reader {
+            border: none !important;
+            width: 100% !important;
+            height: 100% !important;
+            background: transparent !important;
+        }
+        #qr-reader video {
+            object-fit: cover !important;
+            width: 100% !important;
+            height: 100% !important;
+            border-radius: 0.75rem !important;
+        }
+        #qr-shaded-region {
+            border-width: 0 !important;
+            border: none !important;
+            background: rgba(15, 23, 42, 0.35) !important;
+        }
+        #qr-reader__scan_region {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+        }
+        @keyframes scanLaser {
+            0%, 100% {
+                top: 8px;
+                opacity: 0.3;
+            }
+            50% {
+                top: calc(100% - 12px);
+                opacity: 1;
+            }
+        }
+    </style>
 </x-app-layout>
